@@ -111,24 +111,15 @@ export default function SignUpScreen() {
         .single();
 
       if (usersError || !userData) {
-        // Auth succeeded but DB insert failed — log and continue
         console.error('users insert failed:', usersError);
+        setErrors({ general: 'something went wrong creating your account. please try again.' });
         return;
       }
 
-      const userId = userData.id;
-
-      // Seed balance rows — failures are non-fatal (have default 0)
-      await Promise.allSettled([
-        supabase
-          .from('desperation_points_balance')
-          .insert({ user_id: userId, balance: 0 }),
-        supabase
-          .from('chaos_coins_balance')
-          .insert({ user_id: userId, balance: 0 }),
-      ]);
-
       // Root layout's onAuthStateChange fires → routes to /(tabs) automatically
+      // Balance rows are seeded by DB trigger on users INSERT (migration: 20260529000001)
+      // TODO: race condition — SIGNED_IN event may route before this users insert completes.
+      // Mitigation: users INSERT is fast; (tabs) layout will check for profile on arrival.
     } catch {
       setErrors({ general: 'something went wrong. try again.' });
     } finally {
