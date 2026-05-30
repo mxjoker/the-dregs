@@ -9,22 +9,14 @@ export type SessionState =
 
 /**
  * Resolves the current Supabase session and subscribes to auth changes.
- * Starts as 'loading' until the first getSession() resolves.
+ * Starts as 'loading' until the INITIAL_SESSION event fires on subscription.
+ * Supabase JS v2 always fires INITIAL_SESSION synchronously on subscribe,
+ * so we don't need a separate getSession() call.
  */
 export function useSession(): SessionState {
   const [state, setState] = useState<SessionState>({ status: 'loading' });
 
   useEffect(() => {
-    // Resolve initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setState(
-        session
-          ? { status: 'authenticated', session }
-          : { status: 'unauthenticated' },
-      );
-    });
-
-    // Subscribe to future auth changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {

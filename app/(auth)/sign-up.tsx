@@ -91,6 +91,13 @@ export default function SignUpScreen() {
         return;
       }
 
+      // If email confirmation is enabled, session is null until the user
+      // confirms. Tell them to check their inbox rather than hanging silently.
+      if (!data.session) {
+        setErrors({ general: 'check your email to confirm your account, then sign in.' });
+        return;
+      }
+
       const authUser = data.user;
       if (!authUser) {
         setErrors({ general: 'something went wrong. try again.' });
