@@ -3,8 +3,9 @@
  */
 
 export function validateEmail(email: string): string | null {
-  if (!email.trim()) return 'email is required';
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+  const trimmed = email.trim();
+  if (!trimmed) return 'email is required';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
     return 'enter a valid email address';
   }
   return null;

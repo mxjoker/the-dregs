@@ -33,8 +33,11 @@ describe('validatePassword', () => {
 });
 
 describe('validateDateOfBirth', () => {
-  it('returns error when fields are empty', () => {
+  it('returns error when all fields are empty', () => {
     expect(validateDateOfBirth('', '', '')).toBe('date of birth is required');
+  });
+  it('returns error when only some fields are filled', () => {
+    expect(validateDateOfBirth('01', '', '1990')).toBe('date of birth is required');
   });
   it('returns error for invalid month', () => {
     expect(validateDateOfBirth('13', '01', '1990')).toBe('enter a valid date');
