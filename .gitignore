@@ -39,3 +39,9 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# Supabase local
+supabase/.temp/
+
+# Brainstorm mockups
+.superpowers/
