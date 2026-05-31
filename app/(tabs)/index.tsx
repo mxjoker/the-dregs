@@ -9,6 +9,7 @@ import { ButWhySheet } from '@/components/discover/ButWhySheet';
 import { FiltersSheet } from '@/components/discover/FiltersSheet';
 import {
   assembleStack,
+  fetchDiscardPile,
   fetchProfiles,
   loadFilters,
   recordSwipe,
@@ -58,6 +59,8 @@ export default function DiscoverScreen() {
       viewerProfileIdRef.current = profile.id;
 
       await fetchStack(profile.id, savedFilters);
+      const pile = await fetchDiscardPile(profile.id);
+      setDiscardPileEmpty(pile.length === 0);
       setLoading(false);
     }
     if (userId) init();
@@ -136,6 +139,10 @@ export default function DiscoverScreen() {
           action: direction,
           targetedFlagId: selectedFlagId,
         });
+      }
+
+      if (direction === 'pass') {
+        setDiscardPileEmpty(false);
       }
 
       if (direction === 'like') {
