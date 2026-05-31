@@ -163,6 +163,27 @@ export type Database = {
         };
         Relationships: [];
       };
+      profile_photos: {
+        Row: {
+          id: string;
+          profile_id: string;
+          storage_path: string;
+          display_order: number;
+          uploaded_at: string;
+        };
+        Insert: {
+          id?: string;
+          profile_id: string;
+          storage_path: string;
+          display_order: number;
+          uploaded_at?: string;
+        };
+        Update: {
+          storage_path?: string;
+          display_order?: number;
+        };
+        Relationships: [];
+      };
       ex_entries: {
         Row: {
           id: string;
