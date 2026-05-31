@@ -9,7 +9,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRef, useState } from 'react';
 import { supabase } from '@/lib/supabase';
@@ -123,10 +123,7 @@ export default function SignUpScreen() {
         return;
       }
 
-      // Root layout's onAuthStateChange fires → routes to /(tabs) automatically
-      // Balance rows are seeded by DB trigger on users INSERT (migration: 20260529000001)
-      // TODO: race condition — SIGNED_IN event may route before this users insert completes.
-      // Mitigation: users INSERT is fast; (tabs) layout will check for profile on arrival.
+      router.replace('/(onboarding)/basics');
     } catch {
       setErrors({ general: 'something went wrong. try again.' });
     } finally {
