@@ -234,3 +234,76 @@ export type Database = {
     Enums: Record<string, never>;
   };
 };
+
+// ─── Additional types for Discover / Swipe ────────────────────────────────
+
+export type SwipeAction = 'pass' | 'like' | 'ick';
+
+export type ProfilePhoto = {
+  id: string;
+  profile_id: string;
+  storage_path: string;
+  display_order: number; // 1–6
+  uploaded_at: string;
+};
+
+export type RedFlag = {
+  id: string;
+  slug: string;
+  label: string;
+  certified_chaotic: boolean;
+  points: number;
+  ick_count: number;
+};
+
+export type ProfileRedFlag = {
+  id: string;
+  profile_id: string;
+  red_flag_id: string;
+  red_flags: RedFlag; // joined
+};
+
+export type SwipeRecord = {
+  id: string;
+  swiper_id: string;
+  swiped_id: string;
+  action: SwipeAction;
+  swiped_at: string;
+  targeted_flag_id: string | null;
+  but_why_tag: string | null;
+};
+
+export type Match = {
+  id: string;
+  user_a_id: string;
+  user_b_id: string;
+  status: 'active' | 'silent' | 'expired' | 'door_open' | 'unmatched';
+  matched_at: string;
+};
+
+export type ButWhyAggregate = {
+  profile_id: string;
+  tag_slug: string;
+  count: number;
+};
+
+// Shape returned by assemble_stack edge function
+export type StackEntry = {
+  profile_id: string;
+  score: number;
+};
+
+// Filters stored in AsyncStorage + synced to profile row
+export type DiscoverFilters = {
+  maxDistanceKm: number;
+  minAge: number;
+  maxAge: number;
+  relationshipStructure: string | null; // null = off
+};
+
+export const DEFAULT_FILTERS: DiscoverFilters = {
+  maxDistanceKm: 50,
+  minAge: 18,
+  maxAge: 99,
+  relationshipStructure: null,
+};
