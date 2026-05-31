@@ -7,8 +7,9 @@ import type {
   ProfilePhoto,
   ProfileRedFlag,
 } from './database.types';
+import { DEFAULT_FILTERS } from './database.types';
 
-export { DEFAULT_FILTERS } from './database.types';
+export { DEFAULT_FILTERS };
 export type { DiscoverFilters, StackEntry };
 
 export const DISCARD_PILE_KEY = '@dregs/discard_pile';
@@ -139,7 +140,8 @@ export async function fetchProfiles(
       .sort((a: any, b: any) => a.display_order - b.display_order)
       .map((pp: any) => ({ question: pp.prompts.prompt_text, answer: pp.answer }));
 
-    const dateOfBirth = row.users?.date_of_birth ?? '1990-01-01';
+    const dateOfBirth = row.users?.date_of_birth;
+    if (!dateOfBirth) throw new Error(`Profile ${row.id} has no linked user date_of_birth`);
 
     return {
       profileId: row.id,
@@ -204,7 +206,6 @@ export async function fetchDiscardPile(viewerProfileId: string): Promise<Discove
 // ─── Filter persistence ──────────────────────────────────────────────────────
 
 export async function loadFilters(): Promise<DiscoverFilters> {
-  const { DEFAULT_FILTERS } = await import('./database.types');
   const raw = await AsyncStorage.getItem(FILTERS_KEY);
   if (!raw) return DEFAULT_FILTERS;
   try {
