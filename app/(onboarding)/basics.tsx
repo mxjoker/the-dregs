@@ -44,13 +44,13 @@ const GENDER_OPTIONS: { label: string; value: GenderIdentityOption }[] = [
 ];
 
 export default function BasicsScreen() {
-  const { userId } = useOnboarding();
+  const { userId, setProfileId } = useOnboarding();
   const [displayName, setDisplayName] = useState('');
   const [selectedPronouns, setSelectedPronouns] = useState<PronounsOption[]>([]);
   const [pronounsText, setPronounsText] = useState('');
   const [gender, setGender] = useState<GenderIdentityOption>('prefer_not_to_say');
   const [genderText, setGenderText] = useState('');
-  const [profileId, setProfileId] = useState<string | null>(null);
+  const [localProfileId, setLocalProfileId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ displayName?: string; general?: string }>({});
 
@@ -91,7 +91,10 @@ export default function BasicsScreen() {
         .select('id')
         .eq('user_id', userId!)
         .single();
-      if (profileRow) setProfileId(profileRow.id);
+      if (profileRow) {
+        setLocalProfileId(profileRow.id);
+        setProfileId(profileRow.id);
+      }
 
       router.replace('/(onboarding)/disaster-profile');
     } catch {
@@ -170,8 +173,8 @@ export default function BasicsScreen() {
       {/* Photo upload */}
       <View style={{ marginTop: 24 }}>
         <Text style={styles.sectionLabel}>photos</Text>
-        {profileId ? (
-          <PhotoUploadGrid profileId={profileId} />
+        {localProfileId ? (
+          <PhotoUploadGrid profileId={localProfileId} />
         ) : userId ? (
           <Text style={{ color: Colors.textMuted, fontSize: 12 }}>
             save your basics first to add photos
