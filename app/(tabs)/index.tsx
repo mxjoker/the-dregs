@@ -45,6 +45,8 @@ export default function DiscoverScreen() {
   const pendingMatchRef = useRef<MatchMomentData | null>(null);
   const matchQueueRef = useRef<MatchMomentData[]>([]);
 
+  const [viewerProfileId, setViewerProfileId] = useState<string | null>(null);
+
   const imperativeSwipe = useRef<((dir: SwipeDirection) => void) | null>(null);
   const viewerProfileIdRef = useRef<string | null>(null);
   const fetchingRef = useRef(false);
@@ -67,6 +69,7 @@ export default function DiscoverScreen() {
         .single();
       if (!profile) return;
       viewerProfileIdRef.current = profile.id;
+      setViewerProfileId(profile.id);
 
       await fetchStack(profile.id, savedFilters);
       const pile = await fetchDiscardPile(profile.id);
@@ -79,7 +82,7 @@ export default function DiscoverScreen() {
 
   // Realtime match subscription
   useEffect(() => {
-    if (!viewerProfileIdRef.current) return;
+    if (!viewerProfileId) return;
     const channel = supabase
       .channel('matches')
       .on(
@@ -103,7 +106,7 @@ export default function DiscoverScreen() {
       )
       .subscribe();
     return () => { supabase.removeChannel(channel); };
-  }, [viewerProfileIdRef.current]);
+  }, [viewerProfileId]);
 
   async function fetchStack(profileId: string, currentFilters: DiscoverFilters) {
     if (fetchingRef.current) return;
@@ -277,7 +280,7 @@ export default function DiscoverScreen() {
         visible={pendingMatch !== null}
         data={pendingMatch}
         onDismiss={handleMatchDismiss}
-        onSendLine={() => {
+        onSendLine={(_line) => {
           handleMatchDismiss();
           router.push('/(tabs)/matches');
         }}
