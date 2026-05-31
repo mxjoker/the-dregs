@@ -3,7 +3,8 @@ import { ExReviewFraming } from '@/lib/database.types';
 
 type OnboardingContextValue = {
   userId: string;
-  profileId: string;
+  profileId: string | null;
+  setProfileId: (id: string) => void;
   selectedPromptSlugs: string[];
   setSelectedPromptSlugs: (slugs: string[]) => void;
   currentPromptIndex: number;
@@ -16,13 +17,14 @@ const OnboardingContext = createContext<OnboardingContextValue | null>(null);
 
 export function OnboardingProvider({
   userId,
-  profileId,
+  profileId: initialProfileId,
   children,
 }: {
   userId: string;
-  profileId: string;
+  profileId: string | null;
   children: ReactNode;
 }) {
+  const [profileId, setProfileId] = useState<string | null>(initialProfileId);
   const [selectedPromptSlugs, setSelectedPromptSlugs] = useState<string[]>([]);
   const [currentPromptIndex, setCurrentPromptIndex] = useState(0);
   const [selectedFraming, setSelectedFraming] = useState<ExReviewFraming | null>(null);
@@ -32,6 +34,7 @@ export function OnboardingProvider({
       value={{
         userId,
         profileId,
+        setProfileId,
         selectedPromptSlugs,
         setSelectedPromptSlugs,
         currentPromptIndex,
