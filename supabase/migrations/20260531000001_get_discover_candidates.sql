@@ -81,7 +81,7 @@ AS $$
     AND u.date_of_birth BETWEEN p_min_dob AND p_max_dob
 
     -- Relationship structure filter (E11, optional)
-    AND (p_rel_filter IS NULL OR p.relationship_structure = p_rel_filter)
+    AND (p_rel_filter IS NULL OR p.relationship_structure = p_rel_filter::relationship_structure)
 
     -- Exclude profiles already served this session
     AND (
