@@ -46,8 +46,7 @@ AS $$
     p.desperation_boost_activated_at
 
   FROM profiles p
-  JOIN users u       ON u.id = p.user_id
-  JOIN profiles viewer ON viewer.id = p_viewer_id
+  JOIN users u ON u.id = p.user_id
 
   WHERE
     -- Hard eligibility (E1–E5)
@@ -75,12 +74,8 @@ AS $$
          OR (b.blocker_id = p.id        AND b.blocked_id = p_viewer_id)
     )
 
-    -- Distance filter (E9) — skipped if either party has no location
-    AND (
-      viewer.location IS NULL
-      OR p.location   IS NULL
-      OR ST_Distance(p.location, viewer.location) <= p_max_dist_m
-    )
+    -- Distance filter (E9) — skipped until PostGIS is enabled
+    -- AND ST_Distance(p.location, viewer.location) <= p_max_dist_m
 
     -- Age filter (E10)
     AND u.date_of_birth BETWEEN p_min_dob AND p_max_dob
