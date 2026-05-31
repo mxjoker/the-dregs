@@ -240,6 +240,31 @@ export type Database = {
         Update: { balance?: number; updated_at?: string };
         Relationships: [];
       };
+      swipes: {
+        Row: {
+          id: string;
+          swiper_id: string;
+          swiped_id: string;
+          action: 'pass' | 'like' | 'ick';
+          swiped_at: string;
+          targeted_flag_id: string | null;
+          but_why_tag: string | null;
+        };
+        Insert: {
+          id?: string;
+          swiper_id: string;
+          swiped_id: string;
+          action: 'pass' | 'like' | 'ick';
+          swiped_at?: string;
+          targeted_flag_id?: string | null;
+          but_why_tag?: string | null;
+        };
+        Update: {
+          but_why_tag?: string | null;
+          targeted_flag_id?: string | null;
+        };
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: {
