@@ -88,7 +88,11 @@ export async function assembleStack(
       },
     },
   );
-  if (error || !data) throw error ?? new Error('assemble_stack returned no data');
+  if (error) {
+    console.error('assembleStack error:', JSON.stringify(error));
+    throw error;
+  }
+  if (!data) throw new Error('assemble_stack returned no data');
   return data.profile_ids;
 }
 
@@ -113,16 +117,24 @@ export async function fetchProfiles(
       pronouns,
       biggest_failure,
       ex_review_framing,
-      users!inner ( date_of_birth ),
-      profile_photos ( id, storage_path, display_order ),
-      profile_red_flags ( id, red_flags ( id, label, ick_count ) ),
+      user_id,
+      profile_photos ( storage_path, display_order ),
+      profile_red_flags ( red_flags ( id, label ) ),
       profile_prompts ( answer, display_order, prompts ( prompt_text ) )
     `,
     )
     .in('id', profileIds);
 
   if (error) throw error;
-  if (!rows) return [];
+  if (!rows || rows.length === 0) return [];
+
+  // Fetch DOBs separately — Supabase join inference unreliable with custom users table
+  const userIds = rows.map((r: any) => r.user_id);
+  const { data: usersData } = await supabase
+    .from('users')
+    .select('id, date_of_birth')
+    .in('id', userIds);
+  const dobMap = Object.fromEntries((usersData ?? []).map((u: any) => [u.id, u.date_of_birth]));
 
   return rows.map((row: any) => {
     const photos = ((row.profile_photos as ProfilePhoto[]) ?? [])
@@ -133,20 +145,19 @@ export async function fetchProfiles(
     const flags = ((row.profile_red_flags as ProfileRedFlag[]) ?? []).map((prf: ProfileRedFlag) => ({
       id: prf.red_flags.id,
       label: prf.red_flags.label,
-      ick_count: prf.red_flags.ick_count,
+      ick_count: 0,
     }));
 
     const prompts = ((row.profile_prompts as any[]) ?? [])
       .sort((a: any, b: any) => a.display_order - b.display_order)
       .map((pp: any) => ({ question: pp.prompts.prompt_text, answer: pp.answer }));
 
-    const dateOfBirth = row.users?.date_of_birth;
-    if (!dateOfBirth) throw new Error(`Profile ${row.id} has no linked user date_of_birth`);
+    const dateOfBirth = dobMap[row.user_id] ?? null;
 
     return {
       profileId: row.id,
       displayName: row.display_name,
-      age: formatAge(dateOfBirth),
+      age: dateOfBirth ? formatAge(dateOfBirth) : 0,
       distanceM: 0, // Distance requires PostGIS — populated by assemble_stack ordering
       chaosScore: row.chaos_score,
       employmentStatus: row.employment_status ?? null,

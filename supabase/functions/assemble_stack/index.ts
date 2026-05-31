@@ -33,6 +33,7 @@ function scoreCandidate(candidate: Candidate, seenThisSession: Set<string>): num
 // ─── Handler ──────────────────────────────────────────────────────────────────
 
 Deno.serve(async (req) => {
+  console.log('assemble_stack called:', req.method, req.url);
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
   }
@@ -84,14 +85,17 @@ Deno.serve(async (req) => {
     }
 
     // Verify viewer profile exists and passed vibe check
+    console.log('looking up viewer_id:', viewer_id);
     const { data: viewerProfile, error: viewerError } = await supabase
       .from('profiles')
-      .select('id, vibe_check_passed, onboarding_step, location')
+      .select('id, vibe_check_passed, onboarding_step')
       .eq('id', viewer_id)
       .single();
 
+    console.log('viewerProfile:', JSON.stringify(viewerProfile), 'error:', JSON.stringify(viewerError));
+
     if (viewerError || !viewerProfile) {
-      return new Response(JSON.stringify({ error: 'Profile not found' }), {
+      return new Response(JSON.stringify({ error: 'Profile not found', viewer_id, viewerError }), {
         status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
     }

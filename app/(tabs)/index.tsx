@@ -47,6 +47,7 @@ export default function DiscoverScreen() {
   // Load filters and assemble stack on mount
   useEffect(() => {
     async function init() {
+      console.log('init called, userId:', userId);
       const savedFilters = await loadFilters();
       setFilters(savedFilters);
 
@@ -62,6 +63,7 @@ export default function DiscoverScreen() {
       const pile = await fetchDiscardPile(profile.id);
       setDiscardPileEmpty(pile.length === 0);
       setLoading(false);
+      console.log('init complete, profileId:', profile.id);
     }
     if (userId) init();
   }, [userId]);
@@ -92,6 +94,7 @@ export default function DiscoverScreen() {
     fetchingRef.current = true;
     try {
       const ids = await assembleStack(profileId, currentFilters);
+      console.log('assembleStack returned ids:', ids);
       if (ids.length === 0) {
         setExhausted(true);
         return;
@@ -99,7 +102,10 @@ export default function DiscoverScreen() {
       setStackIds(ids);
       const firstBatch = ids.slice(0, BATCH_SIZE);
       const fetched = await fetchProfiles(firstBatch, profileId);
+      console.log('fetchProfiles returned:', fetched.length, 'profiles');
       setProfiles(fetched);
+    } catch (e) {
+      console.error('fetchStack error:', JSON.stringify(e), e);
     } finally {
       fetchingRef.current = false;
     }
