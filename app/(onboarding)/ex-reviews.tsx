@@ -58,6 +58,10 @@ export default function ExReviewsScreen() {
         return;
       }
     }
+    if (!profileId) {
+      setErrors({ general: 'something went wrong. try again.' });
+      return;
+    }
     setErrors({});
     setLoading(true);
 

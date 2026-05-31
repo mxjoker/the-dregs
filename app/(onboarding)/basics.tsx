@@ -94,9 +94,10 @@ export default function BasicsScreen() {
       if (profileRow) {
         setLocalProfileId(profileRow.id);
         setProfileId(profileRow.id);
+        router.replace('/(onboarding)/disaster-profile');
+      } else {
+        setErrors({ general: 'something went wrong. try again.' });
       }
-
-      router.replace('/(onboarding)/disaster-profile');
     } catch {
       setErrors({ general: 'something went wrong. try again.' });
     } finally {
