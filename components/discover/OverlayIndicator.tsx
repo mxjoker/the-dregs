@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     right: 16,
   },
   center: {
-    top: 200 as any,
+    top: '40%' as any,  // RN style type doesn't accept % for top in all TS versions
     alignSelf: 'center',
   },
   label: {

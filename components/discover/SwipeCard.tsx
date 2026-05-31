@@ -15,6 +15,7 @@ const CHAOS_ORANGE = '#ff8800';
 const CHAOS_RED = '#ff0050';
 
 export function SwipeCard({ profile, onTap, onFlagLongPress, selectedFlagId }: Props) {
+  const clampedScore = Math.min(100, Math.max(0, profile.chaosScore));
   const topFlags = getTopFlags(profile.flags, 3);
   const overflowCount = profile.flags.length - topFlags.length;
   const firstPrompt = profile.prompts[0] ?? null;
@@ -50,7 +51,7 @@ export function SwipeCard({ profile, onTap, onFlagLongPress, selectedFlagId }: P
             <Text style={styles.chaosLabel}>chaos score</Text>
             <View style={styles.chaosBarTrack}>
               <View
-                style={[styles.chaosBarFill, { width: (profile.chaosScore + '%') as any }]}
+                style={[styles.chaosBarFill, { width: `${clampedScore}%` as any }]}
               />
             </View>
           </View>

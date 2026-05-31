@@ -38,7 +38,7 @@ export function ButWhySheet({ visible, onClose }: Props) {
     if (!visible) return;
     const timer = setTimeout(() => onClose(null), 8000);
     return () => clearTimeout(timer);
-  }, [visible]);
+  }, [visible, onClose]);
 
   function handleTag(tag: ButWhyTag) {
     setSelected(prev => (prev === tag ? null : tag));

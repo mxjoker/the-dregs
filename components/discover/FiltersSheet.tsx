@@ -1,6 +1,6 @@
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import Slider from '@react-native-community/slider';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import type { DiscoverFilters } from '@/lib/discover';
 import { DEFAULT_FILTERS } from '@/lib/discover';
@@ -21,6 +21,10 @@ type Props = {
 
 export function FiltersSheet({ visible, filters, onClose }: Props) {
   const [local, setLocal] = useState<DiscoverFilters>(filters);
+
+  useEffect(() => {
+    if (visible) setLocal(filters);
+  }, [visible]);
 
   function handleClose() {
     onClose(local);

@@ -93,8 +93,13 @@ export function PhotoUploadGrid({ profileId, initialPhotos = [], onPhotoCountCha
       if (dbError) throw dbError;
 
       const { data } = supabase.storage.from('profile-photos').getPublicUrl(path);
-      updateSlot(order, { url: data.publicUrl, storagePath: path, uploading: false });
-      onPhotoCountChange?.(slots.filter(s => s.url !== null).length + 1);
+      setSlots(prev => {
+        const next = prev.map(s =>
+          s.order === order ? { ...s, url: data.publicUrl, storagePath: path, uploading: false } : s
+        );
+        onPhotoCountChange?.(next.filter(s => s.url !== null).length);
+        return next;
+      });
     } catch {
       updateSlot(order, { uploading: false, error: true });
     }
@@ -109,8 +114,13 @@ export function PhotoUploadGrid({ profileId, initialPhotos = [], onPhotoCountCha
         .eq('profile_id', profileId)
         .eq('display_order', order);
     }
-    updateSlot(order, { url: null, storagePath: null, uploading: false, error: false });
-    onPhotoCountChange?.(slots.filter(s => s.url !== null && s.order !== order).length);
+    setSlots(prev => {
+      const next = prev.map(s =>
+        s.order === order ? { ...s, url: null, storagePath: null, uploading: false, error: false } : s
+      );
+      onPhotoCountChange?.(next.filter(s => s.url !== null).length);
+      return next;
+    });
   }
 
   const filledCount = slots.filter(s => s.url !== null).length;

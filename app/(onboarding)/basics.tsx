@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Colors } from '@/constants/Colors';
 import { OnboardingShell } from '@/components/onboarding/OnboardingShell';
@@ -50,6 +50,7 @@ export default function BasicsScreen() {
   const [pronounsText, setPronounsText] = useState('');
   const [gender, setGender] = useState<GenderIdentityOption>('prefer_not_to_say');
   const [genderText, setGenderText] = useState('');
+  const [profileId, setProfileId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ displayName?: string; general?: string }>({});
 
@@ -84,6 +85,13 @@ export default function BasicsScreen() {
         setErrors({ general: 'something went wrong. try again.' });
         return;
       }
+
+      const { data: profileRow } = await supabase
+        .from('profiles')
+        .select('id')
+        .eq('user_id', userId!)
+        .single();
+      if (profileRow) setProfileId(profileRow.id);
 
       router.replace('/(onboarding)/disaster-profile');
     } catch {
@@ -162,13 +170,13 @@ export default function BasicsScreen() {
       {/* Photo upload */}
       <View style={{ marginTop: 24 }}>
         <Text style={styles.sectionLabel}>photos</Text>
-        {userId ? (
-          <PhotoUploadGrid profileId={userId} />
-        ) : (
+        {profileId ? (
+          <PhotoUploadGrid profileId={profileId} />
+        ) : userId ? (
           <Text style={{ color: Colors.textMuted, fontSize: 12 }}>
             save your basics first to add photos
           </Text>
-        )}
+        ) : null}
       </View>
 
       {errors.general ? <Text style={[styles.errorText, { marginTop: 8 }]}>{errors.general}</Text> : null}
