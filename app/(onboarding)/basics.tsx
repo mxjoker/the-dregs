@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Colors } from '@/constants/Colors';
 import { OnboardingShell } from '@/components/onboarding/OnboardingShell';
+import { PhotoUploadGrid } from '@/components/onboarding/PhotoUploadGrid';
 import { useOnboarding } from '@/context/OnboardingContext';
 import { validateDisplayName } from '@/lib/onboarding';
 import { GenderIdentityOption, PronounsOption } from '@/lib/database.types';
@@ -158,6 +159,18 @@ export default function BasicsScreen() {
         />
       )}
 
+      {/* Photo upload */}
+      <View style={{ marginTop: 24 }}>
+        <Text style={styles.sectionLabel}>photos</Text>
+        {userId ? (
+          <PhotoUploadGrid profileId={userId} />
+        ) : (
+          <Text style={{ color: Colors.textMuted, fontSize: 12 }}>
+            save your basics first to add photos
+          </Text>
+        )}
+      </View>
+
       {errors.general ? <Text style={[styles.errorText, { marginTop: 8 }]}>{errors.general}</Text> : null}
 
       <Pressable
@@ -182,6 +195,13 @@ const styles = StyleSheet.create({
     letterSpacing: 1.5,
     textTransform: 'uppercase',
     marginBottom: 8,
+  },
+  sectionLabel: {
+    fontSize: 11,
+    color: Colors.textMuted,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: 12,
   },
   input: {
     backgroundColor: Colors.surface,
