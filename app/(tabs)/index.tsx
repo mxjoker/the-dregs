@@ -20,6 +20,8 @@ import {
 } from '@/lib/discover';
 import { supabase } from '@/lib/supabase';
 import { useOnboarding } from '@/context/OnboardingContext';
+import { fetchMatchMomentData, type MatchMomentData } from '@/lib/matches';
+import { MatchMomentModal } from '@/components/discover/MatchMomentModal';
 
 type SwipeDirection = 'like' | 'pass' | 'ick';
 
@@ -39,10 +41,17 @@ export default function DiscoverScreen() {
   const [butWhyProfile, setButWhyProfile] = useState<string | null>(null);
   const [selectedFlagId, setSelectedFlagId] = useState<string | null>(null);
   const [discardPileEmpty, setDiscardPileEmpty] = useState(true);
+  const [pendingMatch, setPendingMatch] = useState<MatchMomentData | null>(null);
+  const pendingMatchRef = useRef<MatchMomentData | null>(null);
+  const matchQueueRef = useRef<MatchMomentData[]>([]);
 
   const imperativeSwipe = useRef<((dir: SwipeDirection) => void) | null>(null);
   const viewerProfileIdRef = useRef<string | null>(null);
   const fetchingRef = useRef(false);
+
+  useEffect(() => {
+    pendingMatchRef.current = pendingMatch;
+  }, [pendingMatch]);
 
   // Load filters and assemble stack on mount
   useEffect(() => {
@@ -80,8 +89,15 @@ export default function DiscoverScreen() {
           const match = payload.new as { id: string; user_a_id: string; user_b_id: string };
           const profileId = viewerProfileIdRef.current;
           if (match.user_a_id === profileId || match.user_b_id === profileId) {
-            // Match moment screen is out of scope (separate spec) — wire navigation there.
-            console.log('match detected:', match.id);
+            fetchMatchMomentData(match.id, profileId)
+              .then(data => {
+                if (pendingMatchRef.current) {
+                  matchQueueRef.current.push(data);
+                } else {
+                  setPendingMatch(data);
+                }
+              })
+              .catch(err => console.error('fetchMatchMomentData error:', err));
           }
         },
       )
@@ -171,6 +187,16 @@ export default function DiscoverScreen() {
     }
   }
 
+  function handleMatchDismiss() {
+    setPendingMatch(null);
+    if (matchQueueRef.current.length > 0) {
+      setTimeout(() => {
+        const next = matchQueueRef.current.shift();
+        if (next) setPendingMatch(next);
+      }, 200);
+    }
+  }
+
   async function handleButWhyClose(tag: string | null) {
     if (tag && butWhyProfile && viewerProfileIdRef.current) {
       supabase
@@ -246,6 +272,15 @@ export default function DiscoverScreen() {
         visible={showFilters}
         filters={filters}
         onClose={handleFiltersClose}
+      />
+      <MatchMomentModal
+        visible={pendingMatch !== null}
+        data={pendingMatch}
+        onDismiss={handleMatchDismiss}
+        onSendLine={() => {
+          handleMatchDismiss();
+          router.push('/(tabs)/matches');
+        }}
       />
     </View>
   );
