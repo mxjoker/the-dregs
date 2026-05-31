@@ -28,14 +28,13 @@ export default function OnboardingLayout() {
         .select('id')
         .eq('user_id', userData.id)
         .single();
-      if (!profileData) return;
 
       setUserId(userData.id);
-      setProfileId(profileData.id);
+      setProfileId(profileData?.id ?? null);
     })();
   }, [sessionState.status]);
 
-  if (!userId || !profileId) {
+  if (!userId) {
     return <View style={{ flex: 1, backgroundColor: Colors.bg }} />;
   }
 
