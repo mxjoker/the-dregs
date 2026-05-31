@@ -45,7 +45,7 @@ export default function PromptAnswerScreen() {
       setErrors({ answer: 'answer is required' });
       return;
     }
-    if (!promptId) return;
+    if (!promptId || !profileId) return;
     setErrors({});
     setLoading(true);
 
@@ -68,7 +68,7 @@ export default function PromptAnswerScreen() {
         const expiryISO = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
         await supabase
           .from('profiles')
-          .update({ onboarding_step: 'prompts', vibe_check_timer_expiry: expiryISO })
+          .update({ onboarding_step: 'complete', vibe_check_timer_expiry: expiryISO })
           .eq('user_id', userId);
         router.replace('/(onboarding)/vibe-check');
       }
