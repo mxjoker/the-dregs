@@ -302,8 +302,13 @@ export default function DiscoverScreen() {
         data={pendingMatch}
         onDismiss={handleMatchDismiss}
         onSendLine={(_line) => {
+          const matchId = pendingMatch?.matchId;
           handleMatchDismiss();
-          router.push('/(tabs)/matches');
+          if (matchId) {
+            router.push({ pathname: '/matches/[matchId]' as any, params: { matchId } });
+          } else {
+            router.push('/(tabs)/two' as any);
+          }
         }}
       />
     </View>
