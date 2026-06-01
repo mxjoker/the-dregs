@@ -43,12 +43,30 @@ export default function MatchesScreen() {
   const [skipping, setSkipping] = useState(false);
 
   useEffect(() => {
-    if (!profileId) return;
+    if (!profileId) {
+      setLoading(false);
+      return;
+    }
     fetchMatches(profileId)
       .then(setMatches)
       .catch(err => console.error('fetchMatches error:', err))
       .finally(() => setLoading(false));
   }, [profileId]);
+
+  const renderItem = useCallback(({ item }: { item: MatchListItem }) => (
+    <Pressable
+      style={styles.row}
+      onPress={() => router.push({ pathname: '/matches/[matchId]' as any, params: { matchId: item.matchId } })}
+    >
+      <InitialsAvatar name={item.otherName} />
+      <View style={styles.rowText}>
+        <Text style={styles.rowName}>{item.otherName}</Text>
+        <Text style={styles.rowSubtitle} numberOfLines={1}>
+          {formatMatchSubtitle(item)}
+        </Text>
+      </View>
+    </Pressable>
+  ), []);
 
   const handleSignOut = useCallback(async () => {
     setSigningOut(true);
@@ -86,20 +104,7 @@ export default function MatchesScreen() {
           data={matches}
           keyExtractor={item => item.matchId}
           contentContainerStyle={styles.list}
-          renderItem={({ item }) => (
-            <Pressable
-              style={styles.row}
-              onPress={() => router.push({ pathname: '/matches/[matchId]' as any, params: { matchId: item.matchId } })}
-            >
-              <InitialsAvatar name={item.otherName} />
-              <View style={styles.rowText}>
-                <Text style={styles.rowName}>{item.otherName}</Text>
-                <Text style={styles.rowSubtitle} numberOfLines={1}>
-                  {formatMatchSubtitle(item)}
-                </Text>
-              </View>
-            </Pressable>
-          )}
+          renderItem={renderItem}
         />
       )}
 
