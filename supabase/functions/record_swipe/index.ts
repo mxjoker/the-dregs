@@ -125,7 +125,7 @@ Deno.serve(async (req: Request) => {
     const { error: swipeError } = await supabase
       .from('swipes')
       .upsert(
-        { swiper_id: swiperId, swiped_id, action },
+        { swiper_id: swiperId, swiped_id, action, targeted_flag_id, but_why_tag },
         { onConflict: 'swiper_id,swiped_id' }
       );
 
@@ -189,6 +189,18 @@ Deno.serve(async (req: Request) => {
           });
         }
 
+        let matchId: string | null = matchData?.id ?? null;
+        if (!matchId) {
+          // Duplicate — fetch the existing match ID
+          const { data: existing } = await supabase
+            .from('matches')
+            .select('id')
+            .eq('user_a_id', userA)
+            .eq('user_b_id', userB)
+            .single();
+          matchId = existing?.id ?? null;
+        }
+
         // Compute shared flags
         const { data: flagsA } = await supabase
           .from('profile_red_flags')
@@ -209,7 +221,7 @@ Deno.serve(async (req: Request) => {
           JSON.stringify({
             recorded: true,
             matched: true,
-            match_id: matchData?.id ?? null,
+            match_id: matchId,
             shared_flags: sharedFlags,
           }),
           { headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
