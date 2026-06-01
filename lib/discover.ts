@@ -180,21 +180,41 @@ export async function fetchProfiles(
 
 // ─── Record a swipe ──────────────────────────────────────────────────────────
 
+export type RecordSwipeResult = {
+  recorded: boolean;
+  matched: boolean;
+  matchId?: string;
+  sharedFlags?: Array<{ id: string; label: string }>;
+};
+
 export async function recordSwipe(params: {
   swiperProfileId: string;
   swipedProfileId: string;
   action: SwipeAction;
   targetedFlagId?: string | null;
   butWhyTag?: string | null;
-}): Promise<void> {
-  const { error } = await supabase.from('swipes').insert({
-    swiper_id: params.swiperProfileId,
-    swiped_id: params.swipedProfileId,
-    action: params.action,
-    targeted_flag_id: params.targetedFlagId ?? null,
-    but_why_tag: params.butWhyTag ?? null,
+}): Promise<RecordSwipeResult> {
+  const { data, error } = await supabase.functions.invoke<{
+    recorded: boolean;
+    matched: boolean;
+    match_id?: string;
+    shared_flags?: Array<{ id: string; label: string }>;
+  }>('record_swipe', {
+    body: {
+      swiped_id: params.swipedProfileId,
+      action: params.action,
+      targeted_flag_id: params.targetedFlagId ?? null,
+      but_why_tag: params.butWhyTag ?? null,
+    },
   });
   if (error) throw error;
+  if (!data) throw new Error('record_swipe returned no data');
+  return {
+    recorded: data.recorded,
+    matched: data.matched,
+    matchId: data.match_id,
+    sharedFlags: data.shared_flags,
+  };
 }
 
 // ─── Discard pile (Second Thoughts) ──────────────────────────────────────────
