@@ -201,6 +201,12 @@ Deno.serve(async (req: Request) => {
           matchId = existing?.id ?? null;
         }
 
+        if (!matchId) {
+          return new Response(JSON.stringify({ error: 'Failed to resolve match id' }), {
+            status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+
         // Compute shared flags
         const { data: flagsA } = await supabase
           .from('profile_red_flags')
