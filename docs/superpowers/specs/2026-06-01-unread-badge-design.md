@@ -26,10 +26,11 @@ ALTER TABLE matches
 New Postgres function `get_unread_count(viewer_profile_id uuid) → integer`.
 
 Logic:
-1. For each match involving the viewer, determine their `last_read_at` column (a or b)
-2. Count matches where:
-   - `last_read_at` is NULL (never opened), OR
-   - at least one message exists with `sender_id ≠ viewer_profile_id` AND `sent_at > last_read_at`
+1. For each match involving the viewer, resolve `my_last_read_at` = `last_read_at_a` if viewer is `user_a`, else `last_read_at_b`
+2. A match is "unread" if:
+   - `my_last_read_at` IS NULL (never opened), OR
+   - there exists a message with `sender_id ≠ viewer_profile_id` AND `sent_at > my_last_read_at`
+3. Return the count of such matches (each match counted at most once)
 
 Runs with the calling user's RLS context (no SECURITY DEFINER needed).
 
@@ -56,7 +57,7 @@ WHERE id = matchId
 
 Via a Supabase client call. This is a fire-and-forget update — no need to await or show loading state. The realtime subscription in `useUnreadCount` picks up the change and re-fetches.
 
-Helper function `markMatchRead(matchId, profileId)` added to `lib/matches.ts`.
+Helper function `markMatchRead(matchId, profileId)` added to `lib/matches.ts`. The function first checks whether `profileId` is `user_a_id` or `user_b_id` on the match row, then updates the corresponding `last_read_at_a` or `last_read_at_b` column to `now()`.
 
 ## Tab Badge UI
 
@@ -81,7 +82,7 @@ Passing `undefined` (not `0`) when count is zero ensures the badge disappears en
 
 | File | Change |
 |------|--------|
-| `supabase/migrations/YYYYMMDD_add_last_read_at.sql` | Add columns + RPC |
+| `supabase/migrations/20260601_add_last_read_at.sql` | Add columns + RPC |
 | `lib/matches.ts` | Add `markMatchRead` function |
 | `hooks/useUnreadCount.ts` | New hook |
 | `app/(tabs)/_layout.tsx` | Wire up hook + tabBarBadge |
