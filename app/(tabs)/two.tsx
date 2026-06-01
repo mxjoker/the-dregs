@@ -1,107 +1,172 @@
-import { ActivityIndicator, Pressable, StyleSheet, Text, View } from 'react-native';
-import { useState } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import { useState, useEffect, useCallback } from 'react';
 import { router } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 import { supabase } from '@/lib/supabase';
+import { useOnboarding } from '@/context/OnboardingContext';
+import { fetchMatches, type MatchListItem } from '@/lib/matches';
+
+function formatMatchSubtitle(item: MatchListItem): string {
+  if (item.lastMessageBody) {
+    return item.lastMessageBody.length > 40
+      ? item.lastMessageBody.slice(0, 40) + '…'
+      : item.lastMessageBody;
+  }
+  const matchedAt = new Date(item.matchedAt);
+  const days = Math.floor((Date.now() - matchedAt.getTime()) / 86400000);
+  if (days === 0) return 'matched today';
+  if (days === 1) return 'matched yesterday';
+  return `matched ${days} days ago`;
+}
+
+function InitialsAvatar({ name }: { name: string }) {
+  const initial = name.trim()[0]?.toUpperCase() ?? '?';
+  return (
+    <View style={styles.avatar}>
+      <Text style={styles.avatarText}>{initial}</Text>
+    </View>
+  );
+}
 
 export default function MatchesScreen() {
+  const { profileId } = useOnboarding();
+  const [matches, setMatches] = useState<MatchListItem[]>([]);
+  const [loading, setLoading] = useState(true);
   const [signingOut, setSigningOut] = useState(false);
   const [skipping, setSkipping] = useState(false);
 
-  async function handleSignOut() {
+  useEffect(() => {
+    if (!profileId) return;
+    fetchMatches(profileId)
+      .then(setMatches)
+      .catch(err => console.error('fetchMatches error:', err))
+      .finally(() => setLoading(false));
+  }, [profileId]);
+
+  const handleSignOut = useCallback(async () => {
     setSigningOut(true);
     await supabase.auth.signOut();
-    // Root layout's useSession listener handles redirect to /(auth)/sign-in
-  }
+  }, []);
 
-  async function handleSkipOnboarding() {
+  const handleSkipOnboarding = useCallback(async () => {
     setSkipping(true);
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) { setSkipping(false); return; }
-
-    const { data: userData } = await supabase
-      .from('users')
-      .select('id')
-      .eq('auth_id', user.id)
-      .single();
+    const { data: userData } = await supabase.from('users').select('id').eq('auth_id', user.id).single();
     if (!userData) { setSkipping(false); return; }
-
-    await supabase
-      .from('profiles')
-      .update({ onboarding_step: 'complete', vibe_check_passed: true })
-      .eq('user_id', userData.id);
-
+    await supabase.from('profiles').update({ onboarding_step: 'complete', vibe_check_passed: true }).eq('user_id', userData.id);
     router.replace('/(tabs)');
-  }
+  }, []);
 
   const busy = signingOut || skipping;
 
+  if (loading) {
+    return (
+      <View style={[styles.container, styles.centered]}>
+        <ActivityIndicator color={Colors.textMuted} />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.placeholder}>no disasters yet. keep swiping.</Text>
+      {matches.length === 0 ? (
+        <View style={styles.centered}>
+          <Text style={styles.emptyText}>no disasters yet. keep swiping.</Text>
+        </View>
+      ) : (
+        <FlatList
+          data={matches}
+          keyExtractor={item => item.matchId}
+          contentContainerStyle={styles.list}
+          renderItem={({ item }) => (
+            <Pressable
+              style={styles.row}
+              onPress={() => router.push({ pathname: '/matches/[matchId]' as any, params: { matchId: item.matchId } })}
+            >
+              <InitialsAvatar name={item.otherName} />
+              <View style={styles.rowText}>
+                <Text style={styles.rowName}>{item.otherName}</Text>
+                <Text style={styles.rowSubtitle} numberOfLines={1}>
+                  {formatMatchSubtitle(item)}
+                </Text>
+              </View>
+            </Pressable>
+          )}
+        />
+      )}
 
-      <Pressable
-        style={[styles.devButton, skipping && styles.buttonDisabled]}
-        onPress={handleSkipOnboarding}
-        disabled={busy}
-      >
-        {skipping
-          ? <ActivityIndicator size="small" color={Colors.textMuted} />
-          : <Text style={styles.devButtonText}>skip onboarding [dev]</Text>
-        }
-      </Pressable>
-
-      <Pressable
-        style={[styles.signOutButton, signingOut && styles.buttonDisabled]}
-        onPress={handleSignOut}
-        disabled={busy}
-      >
-        {signingOut
-          ? <ActivityIndicator size="small" color={Colors.textMuted} />
-          : <Text style={styles.signOutText}>sign out</Text>
-        }
-      </Pressable>
+      <View style={styles.devButtons}>
+        <Pressable
+          style={[styles.devButton, skipping && styles.buttonDisabled]}
+          onPress={handleSkipOnboarding}
+          disabled={busy}
+        >
+          {skipping
+            ? <ActivityIndicator size="small" color={Colors.textMuted} />
+            : <Text style={styles.devButtonText}>skip onboarding [dev]</Text>
+          }
+        </Pressable>
+        <Pressable
+          style={[styles.signOutButton, signingOut && styles.buttonDisabled]}
+          onPress={handleSignOut}
+          disabled={busy}
+        >
+          {signingOut
+            ? <ActivityIndicator size="small" color={Colors.textMuted} />
+            : <Text style={styles.signOutText}>sign out</Text>
+          }
+        </Pressable>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Colors.bg,
+  container: { flex: 1, backgroundColor: Colors.bg },
+  centered: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32 },
+  emptyText: { fontSize: 14, color: Colors.textMuted, fontStyle: 'italic', textAlign: 'center' },
+  list: { paddingTop: 8, paddingBottom: 24 },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    borderBottomWidth: 1,
+    borderBottomColor: Colors.border,
+  },
+  avatar: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: Colors.surface,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 32,
+    marginRight: 12,
   },
-  placeholder: {
-    fontSize: 14,
-    color: Colors.textMuted,
-    fontStyle: 'italic',
-  },
+  avatarText: { fontSize: 18, color: Colors.textPrimary, fontWeight: '500' },
+  rowText: { flex: 1 },
+  rowName: { fontSize: 15, color: Colors.textPrimary, fontWeight: '500', marginBottom: 2 },
+  rowSubtitle: { fontSize: 13, color: Colors.textMuted },
+  devButtons: { padding: 16, gap: 12, borderTopWidth: 1, borderTopColor: Colors.border },
   devButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 24,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    borderRadius: 8,
-    borderStyle: 'dashed',
+    paddingVertical: 10, paddingHorizontal: 24,
+    borderWidth: 1, borderColor: Colors.border, borderRadius: 8, borderStyle: 'dashed',
+    alignSelf: 'center',
   },
-  devButtonText: {
-    fontSize: 13,
-    color: Colors.textMuted,
-  },
+  devButtonText: { fontSize: 13, color: Colors.textMuted },
   signOutButton: {
-    paddingVertical: 10,
-    paddingHorizontal: 24,
-    borderWidth: 1,
-    borderColor: Colors.border,
-    borderRadius: 8,
+    paddingVertical: 10, paddingHorizontal: 24,
+    borderWidth: 1, borderColor: Colors.border, borderRadius: 8,
+    alignSelf: 'center',
   },
-  buttonDisabled: {
-    opacity: 0.4,
-  },
-  signOutText: {
-    fontSize: 13,
-    color: Colors.textSecondary,
-  },
+  buttonDisabled: { opacity: 0.4 },
+  signOutText: { fontSize: 13, color: Colors.textSecondary },
 });
