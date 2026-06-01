@@ -83,29 +83,39 @@ export default function DiscoverScreen() {
   // Realtime match subscription
   useEffect(() => {
     if (!viewerProfileId) return;
+    console.log('[match] subscribing for profileId:', viewerProfileId);
     const channel = supabase
-      .channel('matches')
+      .channel(`matches:${viewerProfileId}`)
       .on(
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'matches' },
         payload => {
+          console.log('[match] realtime INSERT received:', JSON.stringify(payload.new));
           const match = payload.new as { id: string; user_a_id: string; user_b_id: string };
           const profileId = viewerProfileIdRef.current;
+          console.log('[match] checking profileId:', profileId, 'against', match.user_a_id, match.user_b_id);
           if (match.user_a_id === profileId || match.user_b_id === profileId) {
+            console.log('[match] match is mine — fetching moment data');
             fetchMatchMomentData(match.id, profileId)
               .then(data => {
+                console.log('[match] fetchMatchMomentData resolved:', JSON.stringify(data));
                 if (pendingMatchRef.current) {
                   matchQueueRef.current.push(data);
                 } else {
                   setPendingMatch(data);
                 }
               })
-              .catch(err => console.error('fetchMatchMomentData error:', err));
+              .catch(err => console.error('[match] fetchMatchMomentData error:', err));
           }
         },
       )
-      .subscribe();
-    return () => { supabase.removeChannel(channel); };
+      .subscribe((status) => {
+        console.log('[match] subscription status:', status);
+      });
+    return () => {
+      console.log('[match] removing channel for profileId:', viewerProfileId);
+      supabase.removeChannel(channel);
+    };
   }, [viewerProfileId]);
 
   async function fetchStack(profileId: string, currentFilters: DiscoverFilters) {
@@ -158,12 +168,23 @@ export default function DiscoverScreen() {
       });
 
       if (viewerProfileIdRef.current) {
-        await recordSwipe({
+        const result = await recordSwipe({
           swiperProfileId: viewerProfileIdRef.current,
           swipedProfileId: profileId,
           action: direction,
           targetedFlagId: selectedFlagId,
         });
+        if (result.matched && result.matchId) {
+          fetchMatchMomentData(result.matchId, viewerProfileIdRef.current)
+            .then(data => {
+              if (pendingMatchRef.current) {
+                matchQueueRef.current.push(data);
+              } else {
+                setPendingMatch(data);
+              }
+            })
+            .catch(err => console.error('[match] fetchMatchMomentData from swipe error:', err));
+        }
       }
 
       if (direction === 'pass') {
