@@ -15,10 +15,11 @@ export function useUnreadCount(profileId: string | null): { count: number } {
     let cancelled = false;
 
     async function fetchCount() {
+      const currentProfileId = profileIdRef.current;
       const { data, error } = await (supabase.rpc as any)('get_unread_count', {
-        viewer_profile_id: profileIdRef.current,
+        viewer_profile_id: currentProfileId,
       });
-      if (!cancelled && !error && typeof data === 'number') {
+      if (!cancelled && profileIdRef.current === currentProfileId && !error && typeof data === 'number') {
         setCount(data);
       }
     }
