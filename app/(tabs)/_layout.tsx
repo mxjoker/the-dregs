@@ -4,7 +4,34 @@ import { View } from 'react-native';
 import { Colors } from '@/constants/Colors';
 import { OnboardingProvider } from '@/context/OnboardingContext';
 import { useSession } from '@/hooks/useSession';
+import { useUnreadCount } from '@/hooks/useUnreadCount';
 import { supabase } from '@/lib/supabase';
+
+function TabsWithBadge({ profileId }: { profileId: string }) {
+  const { count } = useUnreadCount(profileId);
+  return (
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: Colors.accent,
+        tabBarStyle: { backgroundColor: Colors.bg, borderTopColor: Colors.border },
+        headerShown: false,
+      }}
+    >
+      <Tabs.Screen
+        name="index"
+        options={{ title: 'discover', tabBarLabel: 'discover' }}
+      />
+      <Tabs.Screen
+        name="two"
+        options={{
+          title: 'matches',
+          tabBarLabel: 'matches',
+          tabBarBadge: count > 0 ? count : undefined,
+        }}
+      />
+    </Tabs>
+  );
+}
 
 export default function TabLayout() {
   const sessionState = useSession();
@@ -41,22 +68,7 @@ export default function TabLayout() {
 
   return (
     <OnboardingProvider userId={userId} profileId={profileId}>
-      <Tabs
-        screenOptions={{
-          tabBarActiveTintColor: Colors.accent,
-          tabBarStyle: { backgroundColor: Colors.bg, borderTopColor: Colors.border },
-          headerShown: false,
-        }}
-      >
-        <Tabs.Screen
-          name="index"
-          options={{ title: 'discover', tabBarLabel: 'discover' }}
-        />
-        <Tabs.Screen
-          name="two"
-          options={{ title: 'matches', tabBarLabel: 'matches' }}
-        />
-      </Tabs>
+      <TabsWithBadge profileId={profileId} />
     </OnboardingProvider>
   );
 }
