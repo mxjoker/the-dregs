@@ -280,12 +280,13 @@ export default function DiscoverScreen() {
       </View>
 
       {/* Action buttons */}
-      <ActionButtons
-        onPass={() => imperativeSwipe.current?.('pass')}
-        onIck={() => imperativeSwipe.current?.('ick')}
-        onLike={() => imperativeSwipe.current?.('like')}
-        disabled={exhausted || profiles.length === 0}
-      />
+      {!exhausted && profiles.length > 0 && (
+        <ActionButtons
+          onPass={() => imperativeSwipe.current?.('pass')}
+          onIck={() => imperativeSwipe.current?.('ick')}
+          onLike={() => imperativeSwipe.current?.('like')}
+        />
+      )}
 
       {/* Sheets */}
       <ButWhySheet
