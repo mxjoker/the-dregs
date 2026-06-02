@@ -175,3 +175,26 @@ export async function sendMessage({
     sentAt: data.sent_at,
   };
 }
+
+/**
+ * Marks a match as read for the given viewer by setting their last_read_at column.
+ * Fire-and-forget — caller does not need to await.
+ */
+export async function markMatchRead(matchId: string, viewerProfileId: string): Promise<void> {
+  // Resolve which column to update (a or b)
+  const { data: match, error } = await supabase
+    .from('matches')
+    .select('user_a_id')
+    .eq('id', matchId)
+    .single();
+  if (error || !match) return;
+
+  const column = (match as any).user_a_id === viewerProfileId
+    ? 'last_read_at_a'
+    : 'last_read_at_b';
+
+  await supabase
+    .from('matches')
+    .update({ [column]: new Date().toISOString() })
+    .eq('id', matchId);
+}
