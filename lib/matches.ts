@@ -179,22 +179,26 @@ export async function sendMessage({
 /**
  * Marks a match as read for the given viewer by setting their last_read_at column.
  * Fire-and-forget — caller does not need to await.
+ * Optimized: Two parallel UPDATEs (no SELECT round-trip) — each filters to 0 or 1 row.
  */
 export async function markMatchRead(matchId: string, viewerProfileId: string): Promise<void> {
-  // Resolve which column to update (a or b)
-  const { data: match, error } = await supabase
+  const now = new Date().toISOString();
+
+  // Update last_read_at_a if viewer is user_a
+  const updateA = supabase
     .from('matches')
-    .select('user_a_id')
+    .update({ last_read_at_a: now })
     .eq('id', matchId)
-    .single();
-  if (error || !match) return;
+    .eq('user_a_id', viewerProfileId);
 
-  const column = (match as any).user_a_id === viewerProfileId
-    ? 'last_read_at_a'
-    : 'last_read_at_b';
-
-  await supabase
+  // Update last_read_at_b if viewer is user_b
+  const updateB = supabase
     .from('matches')
-    .update({ [column]: new Date().toISOString() })
-    .eq('id', matchId);
+    .update({ last_read_at_b: now })
+    .eq('id', matchId)
+    .eq('user_b_id', viewerProfileId);
+
+  await Promise.all([updateA, updateB]).catch(() => {
+    // fire-and-forget
+  });
 }
