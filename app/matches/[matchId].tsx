@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import { supabase } from '@/lib/supabase';
 import { useOnboarding } from '@/context/OnboardingContext';
-import { fetchMessages, sendMessage, type Message } from '@/lib/matches';
+import { fetchMessages, markMatchRead, sendMessage, type Message } from '@/lib/matches';
 
 function formatTime(iso: string): string {
   const d = new Date(iso);
@@ -53,9 +53,17 @@ export default function ChatScreen() {
     })().catch(err => console.error('load match name error:', err));
   }, [matchId, profileId]);
 
+  // Mark this match as read when the chat opens
+  useEffect(() => {
+    if (!matchId || !profileId) return;
+    markMatchRead(matchId, profileId).catch(err =>
+      console.warn('markMatchRead error:', err),
+    );
+  }, [matchId, profileId]);
+
   // Load initial messages
   useEffect(() => {
-    if (!matchId) return;
+    if (!matchId) { setLoading(false); return; }
     fetchMessages(matchId)
       .then(setMessages)
       .catch(err => console.error('fetchMessages error:', err))
