@@ -31,10 +31,12 @@ AS $$
         WHERE
           msg.match_id = m.id
           AND msg.sender_id <> viewer_profile_id
-          AND msg.sent_at > CASE
-            WHEN m.user_a_id = viewer_profile_id THEN m.last_read_at_a
-            ELSE m.last_read_at_b
-          END
+          AND msg.sent_at > COALESCE(
+            CASE WHEN m.user_a_id = viewer_profile_id THEN m.last_read_at_a ELSE m.last_read_at_b END,
+            '-infinity'::timestamptz
+          )
       )
     );
 $$;
+
+GRANT EXECUTE ON FUNCTION get_unread_count(uuid) TO authenticated;
