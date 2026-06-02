@@ -2,6 +2,7 @@ import {
   ActivityIndicator,
   FlatList,
   Pressable,
+  RefreshControl,
   StyleSheet,
   Text,
   View,
@@ -39,19 +40,33 @@ export default function MatchesScreen() {
   const { profileId } = useOnboarding();
   const [matches, setMatches] = useState<MatchListItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
   const [skipping, setSkipping] = useState(false);
+
+  const loadMatches = useCallback(async () => {
+    if (!profileId) return;
+    try {
+      const data = await fetchMatches(profileId);
+      setMatches(data);
+    } catch (err) {
+      console.error('fetchMatches error:', err);
+    }
+  }, [profileId]);
 
   useEffect(() => {
     if (!profileId) {
       setLoading(false);
       return;
     }
-    fetchMatches(profileId)
-      .then(setMatches)
-      .catch(err => console.error('fetchMatches error:', err))
-      .finally(() => setLoading(false));
-  }, [profileId]);
+    loadMatches().finally(() => setLoading(false));
+  }, [loadMatches, profileId]);
+
+  const handleRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await loadMatches();
+    setRefreshing(false);
+  }, [loadMatches]);
 
   const renderItem = useCallback(({ item }: { item: MatchListItem }) => (
     <Pressable
@@ -96,15 +111,36 @@ export default function MatchesScreen() {
   return (
     <View style={styles.container}>
       {matches.length === 0 ? (
-        <View style={styles.centered}>
-          <Text style={styles.emptyText}>no disasters yet. keep swiping.</Text>
-        </View>
+        <FlatList
+          data={[]}
+          renderItem={null}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
+              tintColor={Colors.textMuted}
+            />
+          }
+          ListEmptyComponent={
+            <View style={styles.centered}>
+              <Text style={styles.emptyText}>no disasters yet. keep swiping.</Text>
+            </View>
+          }
+          contentContainerStyle={styles.emptyContainer}
+        />
       ) : (
         <FlatList
           data={matches}
           keyExtractor={item => item.matchId}
           contentContainerStyle={styles.list}
           renderItem={renderItem}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={handleRefresh}
+              tintColor={Colors.textMuted}
+            />
+          }
         />
       )}
 
@@ -137,6 +173,7 @@ export default function MatchesScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.bg },
   centered: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 32 },
+  emptyContainer: { flexGrow: 1 },
   emptyText: { fontSize: 14, color: Colors.textMuted, fontStyle: 'italic', textAlign: 'center' },
   list: { paddingTop: 8, paddingBottom: 24 },
   row: {

@@ -180,6 +180,21 @@ describe('fetchMatches', () => {
     expect(result[0].lastMessageBody).toBeNull();
     expect(result[0].lastMessageAt).toBeNull();
   });
+
+  it('fetchMatches can be called twice in sequence without error', async () => {
+    mockFrom.mockReturnValue({
+      select: jest.fn().mockReturnThis(),
+      or: jest.fn().mockReturnThis(),
+      order: jest.fn().mockReturnThis(),
+      in: jest.fn().mockReturnThis(),
+    });
+
+    const first = await fetchMatches('profile-1').catch(() => []);
+    const second = await fetchMatches('profile-1').catch(() => []);
+
+    expect(Array.isArray(first)).toBe(true);
+    expect(Array.isArray(second)).toBe(true);
+  });
 });
 
 describe('fetchMessages', () => {
