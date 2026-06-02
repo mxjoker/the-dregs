@@ -64,8 +64,11 @@ export default function MatchesScreen() {
 
   const handleRefresh = useCallback(async () => {
     setRefreshing(true);
-    await loadMatches();
-    setRefreshing(false);
+    try {
+      await loadMatches();
+    } finally {
+      setRefreshing(false);
+    }
   }, [loadMatches]);
 
   const renderItem = useCallback(({ item }: { item: MatchListItem }) => (
