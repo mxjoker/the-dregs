@@ -137,11 +137,9 @@ export default function VibeCheckScreen() {
       </Pressable>
       <Text style={styles.knockCaption}>each knock: −1 second</Text>
 
-      {__DEV__ && (
-        <Pressable style={styles.skipButton} onPress={completeVibeCheck}>
-          <Text style={styles.skipButtonText}>skip (dev only)</Text>
-        </Pressable>
-      )}
+      <Pressable style={styles.skipButton} onPress={completeVibeCheck}>
+        <Text style={styles.skipButtonText}>skip (dev only)</Text>
+      </Pressable>
     </View>
   );
 }
