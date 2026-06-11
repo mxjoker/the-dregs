@@ -5,21 +5,29 @@ import { useEffect, useRef, useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import { fetchDiscardPile, type DiscoverProfile } from '@/lib/discover';
 import { supabase } from '@/lib/supabase';
-import { useOnboarding } from '@/context/OnboardingContext';
+import { useSession } from '@/hooks/useSession';
 
 export default function SecondThoughtsScreen() {
   const insets = useSafeAreaInsets();
-  const { userId } = useOnboarding();
+  const sessionState = useSession();
+  const authId = sessionState.status === 'authenticated' ? sessionState.session.user.id : null;
   const [profiles, setProfiles] = useState<DiscoverProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const viewerProfileIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     async function load() {
+      const { data: userData } = await supabase
+        .from('users')
+        .select('id')
+        .eq('auth_id', authId!)
+        .single();
+      if (!userData) return;
+
       const { data } = await supabase
         .from('profiles')
         .select('id')
-        .eq('user_id', userId!)
+        .eq('user_id', userData.id)
         .single();
       if (!data) return;
       viewerProfileIdRef.current = data.id;
@@ -27,8 +35,8 @@ export default function SecondThoughtsScreen() {
       setProfiles(pile);
       setLoading(false);
     }
-    if (userId) load();
-  }, [userId]);
+    if (authId) load();
+  }, [authId]);
 
   if (loading) {
     return (

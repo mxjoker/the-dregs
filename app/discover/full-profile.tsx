@@ -12,12 +12,13 @@ import {
   type DiscoverProfile,
 } from '@/lib/discover';
 import { supabase } from '@/lib/supabase';
-import { useOnboarding } from '@/context/OnboardingContext';
+import { useSession } from '@/hooks/useSession';
 
 export default function FullProfileScreen() {
   const { profileId } = useLocalSearchParams<{ profileId: string }>();
   const insets = useSafeAreaInsets();
-  const { userId } = useOnboarding();
+  const sessionState = useSession();
+  const authId = sessionState.status === 'authenticated' ? sessionState.session.user.id : null;
 
   const [profile, setProfile] = useState<DiscoverProfile | null>(null);
   const [selectedFlagId, setSelectedFlagId] = useState<string | null>(null);
@@ -26,10 +27,17 @@ export default function FullProfileScreen() {
 
   useEffect(() => {
     async function load() {
+      const { data: userData } = await supabase
+        .from('users')
+        .select('id')
+        .eq('auth_id', authId!)
+        .single();
+      if (!userData) return;
+
       const { data } = await supabase
         .from('profiles')
         .select('id')
-        .eq('user_id', userId!)
+        .eq('user_id', userData.id)
         .single();
       if (!data) return;
       viewerProfileIdRef.current = data.id;
@@ -37,8 +45,8 @@ export default function FullProfileScreen() {
       const [loaded] = await fetchProfiles([profileId], data.id);
       if (loaded) setProfile(loaded);
     }
-    if (userId && profileId) load();
-  }, [userId, profileId]);
+    if (authId && profileId) load();
+  }, [authId, profileId]);
 
   async function handleSwipe(direction: 'like' | 'pass' | 'ick') {
     if (!profile || !viewerProfileIdRef.current) return;

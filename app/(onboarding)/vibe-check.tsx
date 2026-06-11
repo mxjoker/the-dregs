@@ -136,6 +136,12 @@ export default function VibeCheckScreen() {
         <Text style={styles.knockButtonText}>knock to pass the time</Text>
       </Pressable>
       <Text style={styles.knockCaption}>each knock: −1 second</Text>
+
+      {__DEV__ && (
+        <Pressable style={styles.skipButton} onPress={completeVibeCheck}>
+          <Text style={styles.skipButtonText}>skip (dev only)</Text>
+        </Pressable>
+      )}
     </View>
   );
 }
@@ -199,4 +205,6 @@ const styles = StyleSheet.create({
   },
   knockButtonText: { color: Colors.textSecondary, fontSize: 13 },
   knockCaption: { fontSize: 11, color: Colors.textMuted },
+  skipButton: { marginTop: 32 },
+  skipButtonText: { fontSize: 11, color: Colors.textMuted, textDecorationLine: 'underline' },
 });
