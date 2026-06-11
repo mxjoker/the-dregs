@@ -1,0 +1,890 @@
+[
+  {
+    "first_name": "Nell",
+    "email": "nell@seed.thedregs.app",
+    "date_of_birth": "1990-03-14",
+    "gender_identity": "woman",
+    "pronouns": "she_her",
+    "employment_status": "working_on_something",
+    "looking_for": "situationship_with_potential",
+    "relationship_structure": "still_figuring_it_out",
+    "biggest_failure": "Spent 18 months developing a sourdough starter named Gerald. Gerald died. I did not cry at my grandmother's funeral but I cried at that.",
+    "prompts": [
+      {
+        "slug": "most_impressive_failure",
+        "answer": "Quit my job to open a bread bakery. Got three weeks in before realizing I hate waking up early. Gerald was the only true casualty."
+      },
+      {
+        "slug": "therapist_would_say",
+        "answer": "That I use fermentation projects as emotional proxies. She's not wrong but I don't want to discuss it further."
+      },
+      {
+        "slug": "last_thing_i_quit",
+        "answer": "The bread bakery, the sourdough Instagram, and a brief intense phase of making my own vinegar. In that order."
+      }
+    ],
+    "red_flags": [
+      "romanticises_own_dysfunction",
+      "started_a_business_once",
+      "cries_at_adverts"
+    ],
+    "ex_entries": [
+      {
+        "framing": "work_history",
+        "nickname": "The Catalyst",
+        "wh_job_title": "Chief Enabler",
+        "wh_start_date": "2019-06-01",
+        "wh_end_date": "2020-11-15",
+        "wh_role_description": "Encouraged every terrible idea. Bought me a proofing basket. Attended the bakery soft launch without being asked.",
+        "wh_reason_for_leaving": "Said Gerald was 'just bread.' I could not be with someone who didn't understand what was at stake."
+      }
+    ],
+    "canned_reply": "Oh you actually messaged first? That's either brave or you haven't read my profile carefully. Either way I respect it. What's your relationship with carbohydrates?"
+  },
+  {
+    "first_name": "Orlando",
+    "email": "orlando@seed.thedregs.app",
+    "date_of_birth": "1986-11-22",
+    "gender_identity": "man",
+    "pronouns": "he_him",
+    "employment_status": "technically_consulting",
+    "looking_for": "a_reason_to_stay_in_this_city",
+    "relationship_structure": "monogamous",
+    "biggest_failure": "Left a good job to 'find myself.' Found myself in a van in New Mexico for four months. The van had no AC. I am still not found.",
+    "prompts": [
+      {
+        "slug": "peaked_when",
+        "answer": "When I had a business card with a logo on it. Now I have a van and a LinkedIn that says 'strategic advisor.'"
+      },
+      {
+        "slug": "terrible_partner_if",
+        "answer": "You need someone who knows where they'll be in six months. I'm narrowing it down to three cities and two continents."
+      },
+      {
+        "slug": "learned_most_from",
+        "answer": "Forty days alone in a van teaches you that you don't enjoy being alone. A therapist could have told me this for much less."
+      }
+    ],
+    "red_flags": [
+      "cannot_make_plans",
+      "main_character_syndrome",
+      "started_a_business_once",
+      "will_not_dtr"
+    ],
+    "ex_entries": [
+      {
+        "framing": "work_history",
+        "nickname": "The Anchor",
+        "wh_job_title": "Senior Realist",
+        "wh_start_date": "2021-02-01",
+        "wh_end_date": "2022-08-30",
+        "wh_role_description": "Maintained a real apartment with plants and a lease. Grounded me while the van was a 'temporary lifestyle experiment.'",
+        "wh_reason_for_leaving": "Asked where I saw myself in a year. I said 'somewhere warm.' She said 'I can't keep doing this.'"
+      },
+      {
+        "framing": "verified_purchases",
+        "nickname": "Pre-Van Era",
+        "vp_star_rating": 4,
+        "vp_review_title": "Good product, wrong timing",
+        "vp_review_body": "Genuinely lovely. Ended because I was mid-spiral and she deserved better. Would recommend to someone more stable than me.",
+        "vp_badge": "verified_situationship"
+      }
+    ],
+    "canned_reply": "Hey. Fair warning: I'm technically between time zones right now. The van is parked, I'm emotionally available-ish. Buy me a coffee and I'll explain the whole thing."
+  },
+  {
+    "first_name": "Bea",
+    "email": "bea@seed.thedregs.app",
+    "date_of_birth": "1994-07-08",
+    "gender_identity": "woman",
+    "pronouns": "she_her",
+    "employment_status": "in_a_band",
+    "looking_for": "chaos_but_make_it_romantic",
+    "relationship_structure": "ethically_non_monogamous",
+    "biggest_failure": "The band is 'about to tour.' We have been about to tour for three years. We have toured zero times. The merch is ready though.",
+    "prompts": [
+      {
+        "slug": "red_flag_most_proud_of",
+        "answer": "I will cancel plans for soundcheck even when there is no show scheduled. It's called maintaining the lifestyle."
+      },
+      {
+        "slug": "swipe_right_if",
+        "answer": "You're okay with 'the show' always coming first, even when the show is three people in a bar near a highway."
+      },
+      {
+        "slug": "two_truths_situationship",
+        "answer": "I own more guitars than furniture. The band has 'a great energy right now.' Only one is a lie and I won't say which."
+      }
+    ],
+    "red_flags": [
+      "has_a_podcast",
+      "cannot_make_plans",
+      "cancels_last_minute",
+      "romanticises_own_dysfunction"
+    ],
+    "ex_entries": [
+      {
+        "framing": "work_history",
+        "nickname": "The Roadie",
+        "wh_job_title": "Unpaid Tour Support",
+        "wh_start_date": "2022-03-15",
+        "wh_end_date": "2023-01-20",
+        "wh_role_description": "Drove the van. Loaded the gear. Believed in the tour before I did. Was there for every 'we almost have a booking.'",
+        "wh_reason_for_leaving": "Said he needed someone who could 'commit to a plan.' The tour was very close at that point."
+      }
+    ],
+    "canned_reply": "We just released a new single, if you want to start there. Also hi. I'm Bea. The single is on Bandcamp. I'll send the link if you don't ghost me first."
+  },
+  {
+    "first_name": "Dashiell",
+    "email": "dashiell@seed.thedregs.app",
+    "date_of_birth": "1983-04-30",
+    "gender_identity": "man",
+    "pronouns": "he_him",
+    "employment_status": "on_sabbatical_unplanned",
+    "looking_for": "to_be_perceived",
+    "relationship_structure": "relationship_anarchist",
+    "biggest_failure": "Wrote a screenplay about my divorce while going through my divorce. It was optioned. The option expired. The divorce was final.",
+    "prompts": [
+      {
+        "slug": "most_impressive_failure",
+        "answer": "Optioned a screenplay to a mid-tier production company, signed a deal memo, then watched it go into turnaround over 18 months."
+      },
+      {
+        "slug": "know_its_going_well",
+        "answer": "When you don't feel like I'm workshopping you as a character. I try to catch myself but I'm not always fast enough."
+      },
+      {
+        "slug": "a_lot_to_deal_with",
+        "answer": "I have a whiteboard in my kitchen covered in relationship diagrams. They are labeled. I can explain all of them if asked."
+      }
+    ],
+    "red_flags": [
+      "talks_about_their_ex_constantly",
+      "main_character_syndrome",
+      "romanticises_own_dysfunction",
+      "read_receipts_on"
+    ],
+    "ex_entries": [
+      {
+        "framing": "verified_purchases",
+        "nickname": "The Inciting Incident",
+        "vp_star_rating": 2,
+        "vp_review_title": "Source material: 3 stars. Experience: 1 star.",
+        "vp_review_body": "The most dramatically interesting relationship I've had. She'd hate being described that way. The screenplay is pretty good.",
+        "vp_badge": "verified_chaos"
+      }
+    ],
+    "canned_reply": "I'll be honest: I already thought about what your arc would be in my next project and I need you to know that's a compliment. Tell me one true thing and one you wish were true."
+  },
+  {
+    "first_name": "Wren",
+    "email": "wren@seed.thedregs.app",
+    "date_of_birth": "1998-09-03",
+    "gender_identity": "non_binary",
+    "pronouns": "they_them",
+    "employment_status": "student_professionally",
+    "looking_for": "someone_who_texts_back",
+    "relationship_structure": "open_relationship",
+    "biggest_failure": "Enrolled in a second master's degree specifically to avoid deciding what to do with my first master's degree. Working great so far.",
+    "prompts": [
+      {
+        "slug": "therapist_would_say",
+        "answer": "That academic avoidance is still avoidance. I counter that at least I'm getting credentials out of it. She doesn't find this compelling."
+      },
+      {
+        "slug": "peaked_when",
+        "answer": "Got into a PhD program I turned down. I think about it every six weeks at 2am when I should be finishing a thesis chapter."
+      },
+      {
+        "slug": "love_language",
+        "answer": "Sending articles I found at midnight with 'no pressure but' in the subject line. It's a lot but I can't stop doing it."
+      }
+    ],
+    "red_flags": [
+      "replies_in_3_days",
+      "emotionally_unavailable",
+      "knows_all_attachment_styles"
+    ],
+    "ex_entries": [
+      {
+        "framing": "work_history",
+        "nickname": "The TA",
+        "wh_job_title": "Temporary Clarity Provider",
+        "wh_start_date": "2023-09-01",
+        "wh_end_date": "2024-05-15",
+        "wh_role_description": "Was finishing their PhD. Very sure about things. Let me read chapters before submission. Made the avoidance worse.",
+        "wh_reason_for_leaving": "They graduated and moved away. Classic narrative irony. My thesis advisor said I seem 'unsettled.' Correct."
+      }
+    ],
+    "canned_reply": "Oh interesting, you've decided to begin a thing. I respect the initiative. I'm in the middle of a deadline but I have time to overthink this. What program are you in, if any?"
+  },
+  {
+    "first_name": "Cora",
+    "email": "cora@seed.thedregs.app",
+    "date_of_birth": "1988-12-19",
+    "gender_identity": "woman",
+    "pronouns": "she_her",
+    "employment_status": "freelance_everything",
+    "looking_for": "my_keys_and_also_love",
+    "relationship_structure": "not_a_conversation_im_having_on_app",
+    "biggest_failure": "Went fully freelance in 2019. Told everyone to do the same. Several did. 2020 happened. I still owe some of those people an apology.",
+    "prompts": [
+      {
+        "slug": "swipe_right_if",
+        "answer": "You're fine with erratic availability, occasional tax-season brain, and a person who eats lunch at 4pm because time is a construct."
+      },
+      {
+        "slug": "a_lot_to_deal_with",
+        "answer": "I have 11 tabs of invoicing software open and still do invoices in a spreadsheet I built in 2017 and refuse to change."
+      },
+      {
+        "slug": "last_thing_i_quit",
+        "answer": "A retainer client who paid well but sent emails at 11pm. I was right. I think about that retainer every few weeks anyway."
+      }
+    ],
+    "red_flags": [
+      "cannot_make_plans",
+      "emotionally_unavailable",
+      "does_not_own_curtains"
+    ],
+    "ex_entries": [
+      {
+        "framing": "work_history",
+        "nickname": "The W2",
+        "wh_job_title": "Stability Consultant",
+        "wh_start_date": "2020-01-10",
+        "wh_end_date": "2021-06-30",
+        "wh_role_description": "Had a salary. Shared his calendar with me. Made dinner at 7pm every weekday. Horrifying and extremely attractive.",
+        "wh_reason_for_leaving": "Wanted to 'sync up' about where things were going. I sent a voice note. He said it was too long. Incompatible."
+      }
+    ],
+    "canned_reply": "Hi! Sorry I just finished a call. Or I'm about to start one. One of those. I'm here now, give or take ten minutes either direction. What's your deal?"
+  },
+  {
+    "first_name": "Nico",
+    "email": "nico@seed.thedregs.app",
+    "date_of_birth": "1995-05-27",
+    "gender_identity": "man",
+    "pronouns": "he_they",
+    "employment_status": "self_employed_loosely",
+    "looking_for": "something_undefined",
+    "relationship_structure": "open_relationship",
+    "biggest_failure": "Launched a DTC hot sauce brand. Sold 400 units. Got one cease-and-desist. Settled. Still have 200 units in my bathroom.",
+    "prompts": [
+      {
+        "slug": "most_impressive_failure",
+        "answer": "The legal dispute outlasted the business. The lawyers cost more than the Shopify store. I learned a lot about IP law."
+      },
+      {
+        "slug": "red_flag_most_proud_of",
+        "answer": "I will pitch you the hot sauce brand on a first date and genuinely believe you might invest. Two hundred units. Priced to move."
+      },
+      {
+        "slug": "terrible_partner_if",
+        "answer": "You need someone whose side project isn't a legal grey area. Current status: one active trademark dispute and a lot of optimism."
+      }
+    ],
+    "red_flags": [
+      "started_a_business_once",
+      "will_not_dtr",
+      "matches_and_never_messages"
+    ],
+    "ex_entries": [
+      {
+        "framing": "verified_purchases",
+        "nickname": "The Investor",
+        "vp_star_rating": 3,
+        "vp_review_title": "Believed in the brand. Complicated feelings about the cease-and-desist.",
+        "vp_review_body": "She put $800 into inventory at my request. I am still paying her back in hot sauce. She rates it a 7/10 which I appreciate.",
+        "vp_badge": "verified_chaos"
+      }
+    ],
+    "canned_reply": "Okay real talk — do you like spicy food? I ask everyone this early because it's relevant. Also hi, I'm Nico, and no that's not my usual opener but here we are."
+  },
+  {
+    "first_name": "Paloma",
+    "email": "paloma@seed.thedregs.app",
+    "date_of_birth": "1991-08-04",
+    "gender_identity": "woman",
+    "pronouns": "she_they",
+    "employment_status": "full_time_creative",
+    "looking_for": "to_relocate_for_wrong_reasons",
+    "relationship_structure": "polyamorous",
+    "biggest_failure": "Applied for a residency in Lisbon, got waitlisted, moved anyway, never got off the list, stayed 14 months. The art is fine.",
+    "prompts": [
+      {
+        "slug": "peaked_when",
+        "answer": "Had a piece in a group show where someone almost bought it. They came back the next day and it was gone. The buyer was me."
+      },
+      {
+        "slug": "love_language",
+        "answer": "Taking photos of things and showing no one. If I show you one it means something. I've shown two people. One knew what it meant."
+      },
+      {
+        "slug": "know_its_going_well",
+        "answer": "I stop mentioning Lisbon every five minutes. We're in trouble when I start looking at flights while you're in the room."
+      }
+    ],
+    "red_flags": [
+      "main_character_syndrome",
+      "emotionally_unavailable",
+      "romanticises_own_dysfunction"
+    ],
+    "ex_entries": [
+      {
+        "framing": "work_history",
+        "nickname": "The Lisbon Overlap",
+        "wh_job_title": "Concurrent Resident",
+        "wh_start_date": "2022-05-01",
+        "wh_end_date": "2023-04-10",
+        "wh_role_description": "Also there on a residency, actually accepted. We overlapped for eight months. The tension was incredible. The art got weirder.",
+        "wh_reason_for_leaving": "His residency ended and he went back. I stayed. The math wasn't hard but the feelings were."
+      }
+    ],
+    "canned_reply": "Hi. I'm deciding whether to interpret your message as interesting or just statistically likely. Tell me something that makes you 35% more surprising than your photos suggest."
+  },
+  {
+    "first_name": "Gus",
+    "email": "gus@seed.thedregs.app",
+    "date_of_birth": "1984-02-17",
+    "gender_identity": "man",
+    "pronouns": "he_him",
+    "employment_status": "employed_unfortunately",
+    "looking_for": "emotional_damage",
+    "relationship_structure": "not_a_conversation_im_having_on_app",
+    "biggest_failure": "Still at the same company I joined at 26 because the benefits are too good to leave. I have optimized my misery to a very high standard.",
+    "prompts": [
+      {
+        "slug": "therapist_would_say",
+        "answer": "That I've outsourced my identity to a corporate org chart and the 401k match is emotional hostage-taking. She used the word 'enmeshed.'"
+      },
+      {
+        "slug": "peaked_when",
+        "answer": "Got named Employee of the Quarter in 2014. There was a plaque. I still have it. I'm not sure why I told you that."
+      },
+      {
+        "slug": "terrible_partner_if",
+        "answer": "You want someone who loves their job. I have great benefits and a carefully managed contempt for the whole situation."
+      }
+    ],
+    "red_flags": [
+      "emotionally_unavailable",
+      "replies_in_3_days",
+      "cries_at_adverts"
+    ],
+    "ex_entries": [
+      {
+        "framing": "work_history",
+        "nickname": "The Exit Interview",
+        "wh_job_title": "Long-Term Project",
+        "wh_start_date": "2017-07-15",
+        "wh_end_date": "2021-03-01",
+        "wh_role_description": "Four years. She left her job for something better. I admired it but said nothing. She encouraged me to do the same. I stayed.",
+        "wh_reason_for_leaving": "She said I 'didn't want to want things.' I couldn't argue. I had just declined a recruiter call for the sixth time."
+      }
+    ],
+    "canned_reply": "Hey. I'm at my desk. Obviously. I have 40 minutes before my next meeting and I'd like to use them talking to someone who doesn't need anything from my Q3 deliverables. What are you doing?"
+  },
+  {
+    "first_name": "Tilda",
+    "email": "tilda@seed.thedregs.app",
+    "date_of_birth": "1997-06-11",
+    "gender_identity": "woman",
+    "pronouns": "she_her",
+    "employment_status": "working_on_something",
+    "looking_for": "a_person_not_a_project",
+    "relationship_structure": "solo_poly",
+    "biggest_failure": "Built a productivity app to stop doomscrolling. Spent four months doomscrolling instead of finishing it. Saw the irony. Still did it.",
+    "prompts": [
+      {
+        "slug": "most_impressive_failure",
+        "answer": "Version two is 'in beta.' It has been in beta eleven months. I have three users. Two are me. One is my mom, who is very supportive."
+      },
+      {
+        "slug": "swipe_right_if",
+        "answer": "You're okay with me disappearing for three weeks to 'sprint' and resurfacing with a new feature nobody asked for."
+      },
+      {
+        "slug": "two_truths_situationship",
+        "answer": "I have a detailed roadmap for this app. I have a detailed roadmap for my personal life. Neither has hit a milestone this quarter."
+      }
+    ],
+    "red_flags": [
+      "ghosts_then_reappears",
+      "will_not_dtr",
+      "started_a_business_once"
+    ],
+    "ex_entries": [
+      {
+        "framing": "verified_purchases",
+        "nickname": "Beta User One",
+        "vp_star_rating": 4,
+        "vp_review_title": "High potential, intermittent availability",
+        "vp_review_body": "Incredibly smart. Would vanish during sprint weeks and come back with new features and no explanation. Was also one of the three users.",
+        "vp_badge": "verified_situationship"
+      }
+    ],
+    "canned_reply": "Okay so you messaged me. That's data. I'm adding it to nothing, I just appreciate initiative. I'm between sprints so I'm fully present for this window. Use it wisely."
+  },
+  {
+    "first_name": "Archer",
+    "email": "archer@seed.thedregs.app",
+    "date_of_birth": "1992-10-05",
+    "gender_identity": "man",
+    "pronouns": "he_him",
+    "employment_status": "its_complicated",
+    "looking_for": "someone_to_blame",
+    "relationship_structure": "its_complicated",
+    "biggest_failure": "Co-founded a startup with my best friend. It failed. He moved to Austin. I got the Slack workspace and the domain renewal notices.",
+    "prompts": [
+      {
+        "slug": "learned_most_from",
+        "answer": "Never put a friendship on a cap table. You can rebuild after bad equity splits but not after the pivot meeting that ends the friendship."
+      },
+      {
+        "slug": "red_flag_most_proud_of",
+        "answer": "I still pay $12 a month to keep the domain alive. Two years after shutdown. It's not hope, it's unresolved grief. There's a difference."
+      },
+      {
+        "slug": "know_its_going_well",
+        "answer": "I stop talking about the startup by the third date. Usually. Fourth if the other person also has a founder story."
+      }
+    ],
+    "red_flags": [
+      "talks_about_their_ex_constantly",
+      "started_a_business_once",
+      "romanticises_own_dysfunction",
+      "will_not_dtr"
+    ],
+    "ex_entries": [
+      {
+        "framing": "work_history",
+        "nickname": "The Co-Founder",
+        "wh_job_title": "Series A That Never Happened",
+        "wh_start_date": "2020-01-01",
+        "wh_end_date": "2021-09-30",
+        "wh_role_description": "Best friend. Business partner. Believed in the deck longer than the data warranted. Great at the hard parts.",
+        "wh_reason_for_leaving": "Got a senior role in Austin and I couldn't be happy for him fast enough. He's in Austin now. I have the domain."
+      }
+    ],
+    "canned_reply": "Hey. Full disclosure: I came in with a lot of founder energy but I'm working on it. I have opinions about most things but I'm trying to ask more questions. What broke last for you?"
+  },
+  {
+    "first_name": "Noor",
+    "email": "noor@seed.thedregs.app",
+    "date_of_birth": "1996-01-28",
+    "gender_identity": "woman",
+    "pronouns": "she_her",
+    "employment_status": "funemployed",
+    "looking_for": "mostly_this_app_to_work_out",
+    "relationship_structure": "still_figuring_it_out",
+    "biggest_failure": "Rage quit over Slack at 11am Tuesday. Three paragraphs and a bullet list. HR said it was the most structured resignation they'd ever seen.",
+    "prompts": [
+      {
+        "slug": "peaked_when",
+        "answer": "My Slack resignation had headers and a three-point exit summary. My manager called it 'thorough.' I never went back for my things."
+      },
+      {
+        "slug": "love_language",
+        "answer": "Sending a carefully formatted message that took forty minutes to write, then going offline for six hours. It's how I show up."
+      },
+      {
+        "slug": "last_thing_i_quit",
+        "answer": "The job. Before that: a ceramics class, a running club, a chat called 'Actually Good Vibes,' and a man named after a city."
+      }
+    ],
+    "red_flags": [
+      "ghosts_then_reappears",
+      "emotionally_unavailable",
+      "sends_voice_notes_over_4_mins"
+    ],
+    "ex_entries": [
+      {
+        "framing": "verified_purchases",
+        "nickname": "The City Name",
+        "vp_star_rating": 2,
+        "vp_review_title": "Charismatic. Not in a good way.",
+        "vp_review_body": "Named after a city he'd never been to. Great vibe for three weeks. Could not name one concrete thing he wanted from life.",
+        "vp_badge": "verified_chaos"
+      }
+    ],
+    "canned_reply": "Hi. I'm between things which means I have a lot of opinions and nowhere to put them. If you're looking for low-stakes I will accidentally make it high-stakes. You okay with that?"
+  },
+  {
+    "first_name": "Remy",
+    "email": "remy@seed.thedregs.app",
+    "date_of_birth": "1989-03-02",
+    "gender_identity": "non_binary",
+    "pronouns": "they_them",
+    "employment_status": "freelance_everything",
+    "looking_for": "chaos_but_make_it_romantic",
+    "relationship_structure": "relationship_anarchist",
+    "biggest_failure": "Took four simultaneous contracts in December, told all of them I was 'lightly booked.' January was a war crime I committed against myself.",
+    "prompts": [
+      {
+        "slug": "a_lot_to_deal_with",
+        "answer": "I say yes to everything until I cannot, then go silent for a week, then resurface very apologetic and 70% caught up."
+      },
+      {
+        "slug": "love_language",
+        "answer": "Remembering one specific thing you said six weeks ago and surfacing it at the perfect moment. I take notes. You don't need to know that."
+      },
+      {
+        "slug": "terrible_partner_if",
+        "answer": "You need reliability on a Tuesday-to-Friday basis. Weekends I'm great. Thursdays are a known risk factor for cancellation."
+      }
+    ],
+    "red_flags": [
+      "cancels_last_minute",
+      "ghosts_then_reappears",
+      "sends_voice_notes_over_4_mins",
+      "read_receipts_on"
+    ],
+    "ex_entries": [
+      {
+        "framing": "work_history",
+        "nickname": "The Overlap",
+        "wh_job_title": "Concurrent Everything",
+        "wh_start_date": "2021-11-01",
+        "wh_end_date": "2022-10-15",
+        "wh_role_description": "Also freelance, also overcommitted. Both missed the same deadline on the same project. We were both on it.",
+        "wh_reason_for_leaving": "The client fired us both in one email. We laughed. Then realized we'd been using humor to avoid the real conversation."
+      }
+    ],
+    "canned_reply": "Okay so I owe three people responses right now and I'm choosing to answer you first, which is a statement about something. Not sure what yet. Give me something to work with."
+  },
+  {
+    "first_name": "Soren",
+    "email": "soren@seed.thedregs.app",
+    "date_of_birth": "1987-07-14",
+    "gender_identity": "man",
+    "pronouns": "he_him",
+    "employment_status": "between_callings",
+    "looking_for": "a_reason_to_stay_in_this_city",
+    "relationship_structure": "monogamous",
+    "biggest_failure": "Was a sommelier for six years. Lost my palate during a bad flu in 2021. Spent eight months guessing. No one noticed. I noticed.",
+    "prompts": [
+      {
+        "slug": "most_impressive_failure",
+        "answer": "Recommended a bottle with full confidence while privately tasting nothing but vague fruit. Table of twelve loved it. I had a quiet crisis."
+      },
+      {
+        "slug": "learned_most_from",
+        "answer": "Confidence is load-bearing. Remove it and what people think you know collapses in a very specific, very wine-related way."
+      },
+      {
+        "slug": "know_its_going_well",
+        "answer": "I order a glass without doing the whole thing about it. My palate came back at 40%. I use it selectively now. Special occasions."
+      }
+    ],
+    "red_flags": [
+      "emotionally_unavailable",
+      "will_not_dtr",
+      "does_not_own_curtains"
+    ],
+    "ex_entries": [
+      {
+        "framing": "work_history",
+        "nickname": "The Sommelier Adjacent",
+        "wh_job_title": "Tasting Partner",
+        "wh_start_date": "2019-04-01",
+        "wh_end_date": "2021-12-10",
+        "wh_role_description": "Loved wine before she loved me. Could identify a region better than I could by the end. Proud and slightly threatened.",
+        "wh_reason_for_leaving": "She could tell I was guessing before I told her. She said nothing for three months. That was the whole problem."
+      }
+    ],
+    "canned_reply": "I'll be upfront: I'm between careers and have a lot of opinions about fermentation and nowhere to put them. If that's interesting rather than alarming, I think we can work with this."
+  },
+  {
+    "first_name": "Luz",
+    "email": "luz@seed.thedregs.app",
+    "date_of_birth": "2001-11-30",
+    "gender_identity": "woman",
+    "pronouns": "she_they",
+    "employment_status": "student_professionally",
+    "looking_for": "someone_who_texts_back",
+    "relationship_structure": "still_figuring_it_out",
+    "biggest_failure": "A TikTok about attachment theory went mildly viral. DMs are people asking me to diagnose their situationships. I regret knowing the terms.",
+    "prompts": [
+      {
+        "slug": "therapist_would_say",
+        "answer": "That teaching people about anxious attachment while being anxious about their response is a known irony. She calls it 'meta.'"
+      },
+      {
+        "slug": "love_language",
+        "answer": "Sending the TikTok version of something I was too scared to say directly and then saying 'no reason' when asked why I sent it."
+      },
+      {
+        "slug": "two_truths_situationship",
+        "answer": "I know every attachment style including mine. I also check if someone was 'active recently.' One of these is a contradiction."
+      }
+    ],
+    "red_flags": [
+      "knows_all_attachment_styles",
+      "read_receipts_on",
+      "love_bombed_by_someone"
+    ],
+    "ex_entries": [
+      {
+        "framing": "verified_purchases",
+        "nickname": "The Secure Base",
+        "vp_star_rating": 5,
+        "vp_review_title": "Securely attached. Left anyway.",
+        "vp_review_body": "Textbook secure attachment. Responded fast, communicated clearly, didn't play games. I was terrified the entire time. I ended it. I know.",
+        "vp_badge": "verified_situationship"
+      }
+    ],
+    "canned_reply": "Oh you texted back! That's already statistically above average for this app and I appreciate you. What's your attachment style? Kidding. Kind of. Not going to ask that yet."
+  },
+  {
+    "first_name": "Emmett",
+    "email": "emmett@seed.thedregs.app",
+    "date_of_birth": "1993-05-09",
+    "gender_identity": "man",
+    "pronouns": "he_him",
+    "employment_status": "technically_consulting",
+    "looking_for": "situationship_with_potential",
+    "relationship_structure": "solo_poly",
+    "biggest_failure": "Consulted for a company for two years, then suggested a restructuring that made my contract redundant. They implemented it. I wrote the SOW.",
+    "prompts": [
+      {
+        "slug": "peaked_when",
+        "answer": "Presented findings that eliminated the need for my engagement. They gave me a referral bonus. I still don't know what to do with that."
+      },
+      {
+        "slug": "terrible_partner_if",
+        "answer": "You need someone who doesn't accidentally turn your feelings into a quarterly summary with action items. It's a known issue. Working on it."
+      },
+      {
+        "slug": "red_flag_most_proud_of",
+        "answer": "I made a pros/cons list for a second date and shared it with the person. They said 'a lot.' I said 'thorough.' We went on the date."
+      }
+    ],
+    "red_flags": [
+      "will_not_dtr",
+      "emotionally_unavailable",
+      "in_therapy_not_applying_it"
+    ],
+    "ex_entries": [
+      {
+        "framing": "work_history",
+        "nickname": "The Retainer",
+        "wh_job_title": "Long-Term Engagement",
+        "wh_start_date": "2022-02-14",
+        "wh_end_date": "2023-08-01",
+        "wh_role_description": "Consistent, recurring, reliable. Good rhythm and clear deliverables. I made a retrospective slide deck at the end.",
+        "wh_reason_for_leaving": "She needed 'more than a project update.' I said 'can you clarify the requirements?' That was the last conversation."
+      }
+    ],
+    "canned_reply": "Hi. I have two tactical questions and one about your general outlook. I'll hold the third until I know the first two land. First: what are you actually here for?"
+  },
+  {
+    "first_name": "Ines",
+    "email": "ines@seed.thedregs.app",
+    "date_of_birth": "1985-09-22",
+    "gender_identity": "woman",
+    "pronouns": "she_her",
+    "employment_status": "full_time_creative",
+    "looking_for": "to_be_perceived",
+    "relationship_structure": "ethically_non_monogamous",
+    "biggest_failure": "Pitched a novel to four agents, got one offer, turned it down because the editorial note felt off, rewrote for eight months, never sent it.",
+    "prompts": [
+      {
+        "slug": "a_lot_to_deal_with",
+        "answer": "The file is called FINAL_v8_REAL_FINAL_SUBMIT.docx. It has been on my desktop for sixteen months. I open it once a week to look at it."
+      },
+      {
+        "slug": "learned_most_from",
+        "answer": "'Almost' is its own specific grief. You can't skip it by immediately starting the next thing. I have tried twice. Still true."
+      },
+      {
+        "slug": "swipe_right_if",
+        "answer": "You don't ask 'when is the book coming out' on a first date. I'll volunteer the information at the right time. Let me lead on this."
+      }
+    ],
+    "red_flags": [
+      "romanticises_own_dysfunction",
+      "ghosts_then_reappears",
+      "main_character_syndrome"
+    ],
+    "ex_entries": [
+      {
+        "framing": "work_history",
+        "nickname": "The First Reader",
+        "wh_job_title": "Early Draft Consultant",
+        "wh_start_date": "2020-03-01",
+        "wh_end_date": "2022-11-20",
+        "wh_role_description": "Read everything. Had good notes. Believed in it before I did. Was in the acknowledgments of the unsubmitted version.",
+        "wh_reason_for_leaving": "Needed someone 'present.' I was in the book. He wasn't wrong. He's no longer in the acknowledgments but the note is there."
+      }
+    ],
+    "canned_reply": "You've got my attention. I'll say that. I'm going to ask you one question and I want an honest answer: what's the last thing you made that you were actually proud of, even a little?"
+  },
+  {
+    "first_name": "Knox",
+    "email": "knox@seed.thedregs.app",
+    "date_of_birth": "2000-04-18",
+    "gender_identity": "man",
+    "pronouns": "he_him",
+    "employment_status": "working_on_something",
+    "looking_for": "someone_to_blame",
+    "relationship_structure": "polyamorous",
+    "biggest_failure": "Went viral on a platform that no longer exists. Built my whole personal brand there. It was deleted six months later with 12 hours notice.",
+    "prompts": [
+      {
+        "slug": "peaked_when",
+        "answer": "Had 80,000 followers on a platform that got shut down. My portfolio now has a Wayback Machine link. It mostly loads."
+      },
+      {
+        "slug": "most_impressive_failure",
+        "answer": "Turned down a brand deal two weeks before the platform died because the brand didn't align with my values. The brand is still alive."
+      },
+      {
+        "slug": "last_thing_i_quit",
+        "answer": "Three platforms since that one: too algorithmic, too political, too many people from high school. Now 'building in public' on a fourth."
+      }
+    ],
+    "red_flags": [
+      "main_character_syndrome",
+      "has_a_podcast",
+      "matches_and_never_messages"
+    ],
+    "ex_entries": [
+      {
+        "framing": "verified_purchases",
+        "nickname": "The Collab",
+        "vp_star_rating": 3,
+        "vp_review_title": "Great on-screen chemistry. Less great off it.",
+        "vp_review_body": "We made three videos together. One hit 200k before the platform died. Better as content than as people to each other.",
+        "vp_badge": "verified_chaos"
+      }
+    ],
+    "canned_reply": "Hey. Quick note: I'm not going to follow you anywhere until I know this is real, which sounds paranoid but I've been burned by a platform before. What are we actually doing here?"
+  },
+  {
+    "first_name": "Maren",
+    "email": "maren@seed.thedregs.app",
+    "date_of_birth": "1990-06-03",
+    "gender_identity": "genderfluid",
+    "pronouns": "any_pronouns",
+    "employment_status": "on_sabbatical_unplanned",
+    "looking_for": "a_person_not_a_project",
+    "relationship_structure": "relationship_anarchist",
+    "biggest_failure": "Sabbatical to reconnect with creativity. Reorganized my apartment for three months. Rearranged furniture seven times. Wrote nothing.",
+    "prompts": [
+      {
+        "slug": "red_flag_most_proud_of",
+        "answer": "I've rearranged my apartment so often I can't tell which layout is correct. The couch has been in six spots. Currently spot four again."
+      },
+      {
+        "slug": "therapist_would_say",
+        "answer": "That rearranging furniture is a displacement activity for emotional reorganization. I said I was optimizing flow. She was right."
+      },
+      {
+        "slug": "love_language",
+        "answer": "Helping rearrange your space and knowing you'll move it back the next day. I won't say anything about it. But I'll know."
+      }
+    ],
+    "red_flags": [
+      "rearranges_furniture",
+      "cancels_last_minute",
+      "in_therapy_not_applying_it"
+    ],
+    "ex_entries": [
+      {
+        "framing": "work_history",
+        "nickname": "The Minimalist",
+        "wh_job_title": "Senior Restraining Influence",
+        "wh_start_date": "2021-08-01",
+        "wh_end_date": "2023-01-15",
+        "wh_role_description": "Owned the right amount of furniture. Hadn't moved any of it in four years. Found my sabbatical choices concerning.",
+        "wh_reason_for_leaving": "Found the couch in spot five and asked, very calmly, if everything was okay. Everything was not okay."
+      }
+    ],
+    "canned_reply": "Hello. I'm currently between my third and fourth couch configuration so if I seem unsettled that's accurate. Tell me something that doesn't require a decision right away."
+  },
+  {
+    "first_name": "Petra",
+    "email": "petra@seed.thedregs.app",
+    "date_of_birth": "1982-12-07",
+    "gender_identity": "woman",
+    "pronouns": "she_her",
+    "employment_status": "self_employed_loosely",
+    "looking_for": "my_keys_and_also_love",
+    "relationship_structure": "monogamous",
+    "biggest_failure": "Started a podcast about relationships in 2020. Recorded 14 episodes. Episode 15 has been 'in post' since November 2021. Audience: dwindling.",
+    "prompts": [
+      {
+        "slug": "a_lot_to_deal_with",
+        "answer": "Episode 15 is about commitment issues. I find it increasingly ironic every time I open the project file and close it without finishing it."
+      },
+      {
+        "slug": "swipe_right_if",
+        "answer": "You won't ask about the podcast until at least date three. After that I'll tell you about episode 15 and you'll understand everything."
+      },
+      {
+        "slug": "two_truths_situationship",
+        "answer": "Strong opinions on communication in relationships. Unfinished podcast episode about communication in GarageBand. Make of that what you will."
+      }
+    ],
+    "red_flags": [
+      "has_a_podcast",
+      "will_not_dtr",
+      "love_bombed_someone"
+    ],
+    "ex_entries": [
+      {
+        "framing": "verified_purchases",
+        "nickname": "Episode Six",
+        "vp_star_rating": 4,
+        "vp_review_title": "Inspired the best episode. Also the most chaotic chapter.",
+        "vp_review_body": "Was on the podcast. Was very good on it. We were better as interview and interviewer than in real life. Still recommend the episode.",
+        "vp_badge": "verified_situationship"
+      }
+    ],
+    "canned_reply": "Hi. Before you ask: yes there's a podcast, no it's not finished, yes episode 15 is about commitment, no I don't see the irony. (I completely see the irony.) Introduce yourself properly."
+  },
+  {
+    "first_name": "Idris",
+    "email": "idris@seed.thedregs.app",
+    "date_of_birth": "1999-02-14",
+    "gender_identity": "non_binary",
+    "pronouns": "they_them",
+    "employment_status": "funemployed",
+    "looking_for": "something_undefined",
+    "relationship_structure": "ethically_non_monogamous",
+    "biggest_failure": "Applied to an MFA, got in, deferred twice, then missed the final deadline because I was at a ceramics retreat I didn't think I'd get into.",
+    "prompts": [
+      {
+        "slug": "most_impressive_failure",
+        "answer": "Got into my first-choice MFA and turned it down twice. The ceramics retreat that ended my third attempt made a very good bowl."
+      },
+      {
+        "slug": "love_language",
+        "answer": "Making you a thing. Could be a bowl, a voice note, or a playlist with seventeen songs and no explanation. You'll know when you get it."
+      },
+      {
+        "slug": "terrible_partner_if",
+        "answer": "You need a plan. I operate in deliberate unscheduledness. The MFA situation should have told you what you need to know about me."
+      }
+    ],
+    "red_flags": [
+      "cannot_make_plans",
+      "situationship_veteran",
+      "ghosts_then_reappears"
+    ],
+    "ex_entries": [
+      {
+        "framing": "work_history",
+        "nickname": "The MFA Year",
+        "wh_job_title": "Theoretical Peer",
+        "wh_start_date": "2022-09-01",
+        "wh_end_date": "2023-06-15",
+        "wh_role_description": "Met them at ceramics before I deferred the first time. They were enrolled. I was not. We had a great year pretending I was.",
+        "wh_reason_for_leaving": "They graduated. I did not technically attend. The asymmetry became the whole problem."
+      }
+    ],
+    "canned_reply": "Hey. I wasn't sure I'd check this today but I did and here you are. I'm going to make you something eventually. Don't know what yet. What do you like?"
+  }
+]

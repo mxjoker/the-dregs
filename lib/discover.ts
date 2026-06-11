@@ -6,8 +6,8 @@ import type {
   SwipeAction,
   ProfilePhoto,
   ProfileRedFlag,
-} from './database.types';
-import { DEFAULT_FILTERS } from './database.types';
+} from './app.types';
+import { DEFAULT_FILTERS } from './app.types';
 
 export { DEFAULT_FILTERS };
 export type { DiscoverFilters, StackEntry };

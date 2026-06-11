@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
-import { ExReviewFraming } from '@/lib/database.types';
+import { ExReviewFraming } from '@/lib/app.types';
 
 type OnboardingContextValue = {
   userId: string;

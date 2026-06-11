@@ -13,7 +13,7 @@ import { Colors } from '@/constants/Colors';
 import { OnboardingShell } from '@/components/onboarding/OnboardingShell';
 import { useOnboarding } from '@/context/OnboardingContext';
 import { validateYear } from '@/lib/onboarding';
-import { ExReviewFraming, ExVerifiedBadge } from '@/lib/database.types';
+import { ExReviewFraming, ExVerifiedBadge } from '@/lib/app.types';
 
 type Phase = 'framing' | 'entry';
 

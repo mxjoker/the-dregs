@@ -14,7 +14,7 @@ import { OnboardingShell } from '@/components/onboarding/OnboardingShell';
 import { PhotoUploadGrid } from '@/components/onboarding/PhotoUploadGrid';
 import { useOnboarding } from '@/context/OnboardingContext';
 import { validateDisplayName } from '@/lib/onboarding';
-import { GenderIdentityOption, PronounsOption } from '@/lib/database.types';
+import { GenderIdentityOption, PronounsOption } from '@/lib/app.types';
 
 const PRONOUNS: { label: string; value: PronounsOption }[] = [
   { label: 'he/him', value: 'he_him' },

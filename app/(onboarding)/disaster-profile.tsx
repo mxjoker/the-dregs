@@ -12,7 +12,7 @@ import { supabase } from '@/lib/supabase';
 import { Colors } from '@/constants/Colors';
 import { OnboardingShell } from '@/components/onboarding/OnboardingShell';
 import { useOnboarding } from '@/context/OnboardingContext';
-import { EmploymentStatus, LookingForOption, RelationshipStructure } from '@/lib/database.types';
+import { EmploymentStatus, LookingForOption, RelationshipStructure } from '@/lib/app.types';
 
 const EMPLOYMENT: { label: string; value: EmploymentStatus }[] = [
   { label: 'technically consulting', value: 'technically_consulting' },
