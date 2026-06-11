@@ -32,13 +32,12 @@ matches, chats, gets one canned in-character reply. Everything just works.
 
 ## Plan (status: ⬜ todo / 🔄 in progress / ✅ done)
 1. ✅ Pre-flight: CLI logins verified, rollback tag pushed, WIP committed (fabc095)
-2. 🔄 Wave 1 (3 subagents):
-   a. Reliability: fix tsc noise (exclude supabase/functions, regen DB types), report real errors
-   b. Research: how seeding/photos/discover-distance work today; what could empty a friend's stack
-   c. Content: draft 25-30 fake profiles + canned replies as structured data (constraints: 140-char caps, no protected-class humor, schema enums)
-3. ⬜ Fable: review Wave 1, design seed script + canned-reply mechanism (likely: seed_replies table + trigger on messages insert when other participant is a seed profile)
-4. ⬜ Wave 2: implement seed script + reply migration; apply to prod; verify via SQL + app
-5. ⬜ Deploy: install expo-updates, eas init/update:configure, publish, verify link opens in Expo Go (iOS simulator), full E2E as fresh user
+2. ✅ Wave 1: tsc clean (types regenerated, commit 7c5e2fe); research done; 21 profiles in supabase/seed-data/fake_profiles.json
+3. ✅ Design: migration 20260611000001 (seed_profiles table, auto-like trigger → record_swipe creates match in-request, canned-reply trigger, last_message_at trigger) — APPLIED TO PROD
+4. ✅ Seeded: scripts/seed-fake-profiles.mjs run, seed_profiles = 30. E2E PASSED twice (scripts/e2e-canned-reply.mjs vs margot@dregs.test and dashiell@seed.thedregs.app): instant match, canned reply once, ordering, last_message_at
+   - Joe decided (asked ~7:30pm): keep 24h vibe-check timer, skip button now visible in prod builds
+5. 🔄 Deploy: expo-updates installed, EAS project bc1ebc13-50d8-4872-94dd-675ed4122da5, runtimeVersion sdkVersion policy. PUBLISHED to branch `production` (update group a84d67f6-92bc-4033-8bf7-81374df594a0, runtime exposdk:56.0.0). EXPO_PUBLIC_* env vars registered in EAS production environment. Friend link: exp://u.expo.dev/bc1ebc13-50d8-4872-94dd-675ed4122da5?channel-name=production&runtime-version=exposdk:56.0.0
+   - NOW: verifying link loads in iOS simulator Expo Go; then full fresh-user UI flow
 6. ⬜ Door mechanic (per spec) — only after 5 is solid
 7. ⬜ Push notifications — note: does NOT work in Expo Go iOS; implement guarded registration only, lowest priority
 8. ⬜ MORNING_REPORT.md (gitignored): ranked TODO for Joe first, then what changed, what was verified, uncertainties
