@@ -45,3 +45,6 @@ supabase/.temp/
 
 # Brainstorm mockups
 .superpowers/
+
+# generated overnight report — never commit
+MORNING_REPORT.md
