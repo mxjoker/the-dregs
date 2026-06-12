@@ -44,6 +44,21 @@ export default function DiscoverScreen() {
   const [pendingMatch, setPendingMatch] = useState<MatchMomentData | null>(null);
   const pendingMatchRef = useRef<MatchMomentData | null>(null);
   const matchQueueRef = useRef<MatchMomentData[]>([]);
+  // iOS can only present one native Modal at a time: when the but-why sheet
+  // is up, match moments must queue, then present after the sheet closes.
+  const butWhyProfileRef = useRef<string | null>(null);
+  // A match can arrive via both the swipe response and realtime — dedupe.
+  const seenMatchIdsRef = useRef<Set<string>>(new Set());
+
+  function presentOrQueueMatch(data: MatchMomentData) {
+    if (seenMatchIdsRef.current.has(data.matchId)) return;
+    seenMatchIdsRef.current.add(data.matchId);
+    if (pendingMatchRef.current || butWhyProfileRef.current) {
+      matchQueueRef.current.push(data);
+    } else {
+      setPendingMatch(data);
+    }
+  }
 
   const [viewerProfileId, setViewerProfileId] = useState<string | null>(null);
 
@@ -99,11 +114,7 @@ export default function DiscoverScreen() {
             fetchMatchMomentData(match.id, profileId)
               .then(data => {
                 console.log('[match] fetchMatchMomentData resolved:', JSON.stringify(data));
-                if (pendingMatchRef.current) {
-                  matchQueueRef.current.push(data);
-                } else {
-                  setPendingMatch(data);
-                }
+                presentOrQueueMatch(data);
               })
               .catch(err => console.error('[match] fetchMatchMomentData error:', err));
           }
@@ -176,13 +187,7 @@ export default function DiscoverScreen() {
         });
         if (result.matched && result.matchId) {
           fetchMatchMomentData(result.matchId, viewerProfileIdRef.current)
-            .then(data => {
-              if (pendingMatchRef.current) {
-                matchQueueRef.current.push(data);
-              } else {
-                setPendingMatch(data);
-              }
-            })
+            .then(presentOrQueueMatch)
             .catch(err => console.error('[match] fetchMatchMomentData from swipe error:', err));
         }
       }
@@ -192,6 +197,7 @@ export default function DiscoverScreen() {
       }
 
       if (direction === 'like') {
+        butWhyProfileRef.current = profileId;
         setButWhyProfile(profileId);
       }
     },
@@ -229,7 +235,14 @@ export default function DiscoverScreen() {
         .eq('swiper_id', viewerProfileIdRef.current)
         .eq('swiped_id', butWhyProfile);
     }
+    butWhyProfileRef.current = null;
     setButWhyProfile(null);
+    if (!pendingMatchRef.current && matchQueueRef.current.length > 0) {
+      setTimeout(() => {
+        const next = matchQueueRef.current.shift();
+        if (next) setPendingMatch(next);
+      }, 250);
+    }
   }
 
   if (loading) {
