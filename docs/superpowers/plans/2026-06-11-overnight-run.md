@@ -43,12 +43,17 @@ matches, chats, gets one canned in-character reply. Everything just works.
    client UI (knock screen, AnswerDoorSheet, matches-list door states) committed; in update v2
    (group 5643e0b6-f1e2-4a54-bffb-40b273888c05). Also fixed record_swipe daily-limit column
    (created_at→swiped_at), redeployed (v6), reran canned-reply e2e: passed.
-7. ⬜ Push notifications — DECISION: remote push does not function in Expo Go on iOS at all,
-   so zero value for the friend link; do only if UI verification done and budget allows,
-   else document as next step
-8. 🔄 UI verification in simulator: iPhone 17 Pro first boot was extremely slow (~20+ min,
-   blocked all earlier attempts — the "stuck spinner" screenshots were iOS booting, not the app).
-   Monitor running: bootstatus → install Expo Go 56.0.2 → open production channel URL → screenshot.
+7. ✅ Push notifications — DECISION (final): untestable in Expo Go iOS (no remote push support),
+   documented as next step in MORNING_REPORT.md rather than shipping unverifiable code
+8. ✅ UI verification COMPLETE (iPhone 17e; the 17 Pro device wedges on first boot, erased):
+   published-bundle run as fresh user — signup, onboarding, vibe check (skip visible per Joe),
+   discover stack with new seeds, like → but-why → match modal → chat → LIVE canned reply.
+   Bugs found & fixed & republished (updates v3-v5): matches-screen safe area + session profileId
+   + dev-button gating; chat OnboardingProvider crash (new useMyProfileId hook); match modal
+   iOS double-Modal race (queue + dedup); realtime publication missing messages/matches
+   (migration 20260611000002 — chat realtime had never actually worked).
+   Test accounts friendtest-e2e@ and doortest-e2e@ fully deleted.
+9. ✅ MORNING_REPORT.md written (gitignored). Memory updated. Run complete 2026-06-12 ~02:45 UTC.
 
 ## ⚠️ Incidents for morning report
 - users row test2@thedregs.app has auth_id pointing at Joe's REAL auth account
