@@ -110,7 +110,7 @@ Deno.serve(async (req: Request) => {
         .from('swipes')
         .select('id', { count: 'exact', head: true })
         .eq('swiper_id', swiperId)
-        .gte('created_at', `${today}T00:00:00.000Z`);
+        .gte('swiped_at', `${today}T00:00:00.000Z`);
 
       if (countError) {
         console.error('Swipe count error:', countError);
