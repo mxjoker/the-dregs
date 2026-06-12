@@ -13,8 +13,20 @@ import { Colors } from '@/constants/Colors';
 import { supabase } from '@/lib/supabase';
 import { useOnboarding } from '@/context/OnboardingContext';
 import { fetchMatches, type MatchListItem } from '@/lib/matches';
+import { AnswerDoorSheet } from '@/components/AnswerDoorSheet';
 
 function formatMatchSubtitle(item: MatchListItem): string {
+  // Door-state subtitles (spec table)
+  if (item.matchStatus === 'expired' && item.doorStatus === 'closed') {
+    return 'expired · tap to knock';
+  }
+  if (item.doorStatus === 'knocking') {
+    // We need the viewer profile ID to determine if they are the knocker.
+    // The row receives viewerProfileId as a separate prop — see MatchRow below.
+    // This function is only called for door_open / active states.
+    // (knocking handled directly in MatchRow)
+  }
+  // Normal subtitle
   if (item.lastMessageBody) {
     return item.lastMessageBody.length > 40
       ? item.lastMessageBody.slice(0, 40) + '…'
@@ -36,6 +48,70 @@ function InitialsAvatar({ name }: { name: string }) {
   );
 }
 
+type MatchRowProps = {
+  item: MatchListItem;
+  viewerProfileId: string;
+  onAnswerDoor: (matchId: string) => void;
+};
+
+function MatchRow({ item, viewerProfileId, onAnswerDoor }: MatchRowProps) {
+  const isDoorOpen = item.matchStatus === 'door_open';
+  const isExpiredClosed = item.matchStatus === 'expired' && item.doorStatus === 'closed';
+  const isKnocking = item.doorStatus === 'knocking';
+  const viewerIsKnocker = item.doorKnockedBy === viewerProfileId;
+
+  function handlePress() {
+    if (isDoorOpen || item.matchStatus === 'active') {
+      router.push({ pathname: '/matches/[matchId]' as any, params: { matchId: item.matchId } });
+    } else if (isExpiredClosed) {
+      router.push({ pathname: '/matches/knock' as any, params: { matchId: item.matchId } });
+    } else if (isKnocking && viewerIsKnocker) {
+      router.push({ pathname: '/matches/knock' as any, params: { matchId: item.matchId } });
+    } else if (isKnocking && !viewerIsKnocker) {
+      onAnswerDoor(item.matchId);
+    }
+  }
+
+  // Subtitle text
+  let subtitleText: string;
+  let subtitleDim = false;
+
+  if (isExpiredClosed) {
+    subtitleText = 'expired · tap to knock';
+    subtitleDim = true;
+  } else if (isKnocking && viewerIsKnocker) {
+    subtitleText = `you're knocking… ${item.doorKnockCount}${item.doorKnockTarget ? `/${item.doorKnockTarget}` : ''}`;
+  } else if (isKnocking && !viewerIsKnocker) {
+    subtitleText = `${item.otherName} is at the door`;
+  } else {
+    subtitleText = formatMatchSubtitle(item);
+  }
+
+  return (
+    <Pressable style={styles.row} onPress={handlePress}>
+      <InitialsAvatar name={item.otherName} />
+      <View style={styles.rowText}>
+        <Text style={styles.rowName}>{item.otherName}</Text>
+        <Text
+          style={[styles.rowSubtitle, subtitleDim && styles.rowSubtitleDim]}
+          numberOfLines={1}
+        >
+          {subtitleText}
+        </Text>
+      </View>
+      {isKnocking && !viewerIsKnocker && (
+        <Pressable
+          style={styles.answerBtn}
+          onPress={() => onAnswerDoor(item.matchId)}
+          hitSlop={8}
+        >
+          <Text style={styles.answerBtnText}>answer</Text>
+        </Pressable>
+      )}
+    </Pressable>
+  );
+}
+
 export default function MatchesScreen() {
   const { profileId } = useOnboarding();
   const [matches, setMatches] = useState<MatchListItem[]>([]);
@@ -43,6 +119,9 @@ export default function MatchesScreen() {
   const [refreshing, setRefreshing] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
   const [skipping, setSkipping] = useState(false);
+
+  // AnswerDoorSheet state
+  const [answerSheetMatchId, setAnswerSheetMatchId] = useState<string | null>(null);
 
   const loadMatches = useCallback(async () => {
     if (!profileId) return;
@@ -71,20 +150,29 @@ export default function MatchesScreen() {
     }
   }, [loadMatches]);
 
+  const handleAnswerDoor = useCallback((matchId: string) => {
+    setAnswerSheetMatchId(matchId);
+  }, []);
+
+  const handleSheetClose = useCallback(() => {
+    setAnswerSheetMatchId(null);
+  }, []);
+
+  const handleDoorOpened = useCallback(() => {
+    const matchId = answerSheetMatchId;
+    setAnswerSheetMatchId(null);
+    if (matchId) {
+      router.push({ pathname: '/matches/[matchId]' as any, params: { matchId } });
+    }
+  }, [answerSheetMatchId]);
+
   const renderItem = useCallback(({ item }: { item: MatchListItem }) => (
-    <Pressable
-      style={styles.row}
-      onPress={() => router.push({ pathname: '/matches/[matchId]' as any, params: { matchId: item.matchId } })}
-    >
-      <InitialsAvatar name={item.otherName} />
-      <View style={styles.rowText}>
-        <Text style={styles.rowName}>{item.otherName}</Text>
-        <Text style={styles.rowSubtitle} numberOfLines={1}>
-          {formatMatchSubtitle(item)}
-        </Text>
-      </View>
-    </Pressable>
-  ), []);
+    <MatchRow
+      item={item}
+      viewerProfileId={profileId ?? ''}
+      onAnswerDoor={handleAnswerDoor}
+    />
+  ), [profileId, handleAnswerDoor]);
 
   const handleSignOut = useCallback(async () => {
     setSigningOut(true);
@@ -169,6 +257,16 @@ export default function MatchesScreen() {
           }
         </Pressable>
       </View>
+
+      {/* AnswerDoorSheet — rendered at bottom of screen, same pattern as ButWhySheet */}
+      {answerSheetMatchId && (
+        <AnswerDoorSheet
+          matchId={answerSheetMatchId}
+          visible={true}
+          onClose={handleSheetClose}
+          onOpened={handleDoorOpened}
+        />
+      )}
     </View>
   );
 }
@@ -200,6 +298,16 @@ const styles = StyleSheet.create({
   rowText: { flex: 1 },
   rowName: { fontSize: 15, color: Colors.textPrimary, fontWeight: '500', marginBottom: 2 },
   rowSubtitle: { fontSize: 13, color: Colors.textMuted },
+  rowSubtitleDim: { color: Colors.textMuted, opacity: 0.6 },
+  answerBtn: {
+    borderWidth: 1,
+    borderColor: Colors.border,
+    borderRadius: 8,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    marginLeft: 8,
+  },
+  answerBtnText: { fontSize: 12, color: Colors.textSecondary },
   devButtons: { padding: 16, gap: 12, borderTopWidth: 1, borderTopColor: Colors.border },
   devButton: {
     paddingVertical: 10, paddingHorizontal: 24,

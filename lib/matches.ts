@@ -79,6 +79,11 @@ export type MatchListItem = {
   otherProfileId: string;
   otherName: string;
   matchedAt: string;
+  matchStatus: string;       // 'active' | 'expired' | 'door_open' | 'unmatched'
+  doorStatus: string;        // 'closed' | 'knocking' | 'open'
+  doorKnockedBy: string | null;
+  doorKnockCount: number;
+  doorKnockTarget: number | null;
   lastMessageBody: string | null;
   lastMessageAt: string | null;
 };
@@ -92,13 +97,23 @@ export type Message = {
   sentAt: string;
 };
 
+// Sort group priority: active/door_open=0, knocking=1, expired+closed=2, everything else=3
+function doorSortGroup(status: string, doorStatus: string): number {
+  if (status === 'active' || status === 'door_open') return 0;
+  if (doorStatus === 'knocking') return 1;
+  if (status === 'expired' && doorStatus === 'closed') return 2;
+  return 3;
+}
+
 export async function fetchMatches(viewerProfileId: string): Promise<MatchListItem[]> {
   const { data: rows, error } = await supabase
     .from('matches_with_context')
-    .select('id, user_a_id, user_b_id, user_a_name, user_b_name, matched_at, last_message_at')
+    .select(
+      'id, user_a_id, user_b_id, user_a_name, user_b_name, matched_at, last_message_at, ' +
+      'status, door_status, door_knocked_by, door_knock_count, door_knock_target',
+    )
     .or(`user_a_id.eq.${viewerProfileId},user_b_id.eq.${viewerProfileId}`)
-    .order('last_message_at', { ascending: false, nullsFirst: false } as any)
-    .order('matched_at', { ascending: false });
+    .not('status', 'eq', 'unmatched');
   if (error) throw error;
 
   const matchIds = (rows ?? []).map((r: any) => r.id as string);
@@ -118,7 +133,7 @@ export async function fetchMatches(viewerProfileId: string): Promise<MatchListIt
     }
   }
 
-  return (rows ?? []).map((r: any) => {
+  const items: MatchListItem[] = (rows ?? []).map((r: any) => {
     const isA = r.user_a_id === viewerProfileId;
     const lastMsg = lastMsgMap.get(r.id) ?? null;
     return {
@@ -126,10 +141,62 @@ export async function fetchMatches(viewerProfileId: string): Promise<MatchListIt
       otherProfileId: isA ? r.user_b_id : r.user_a_id,
       otherName: isA ? r.user_b_name : r.user_a_name,
       matchedAt: r.matched_at,
+      matchStatus: r.status ?? 'active',
+      doorStatus: r.door_status ?? 'closed',
+      doorKnockedBy: r.door_knocked_by ?? null,
+      doorKnockCount: r.door_knock_count ?? 0,
+      doorKnockTarget: r.door_knock_target ?? null,
       lastMessageBody: lastMsg?.body ?? null,
       lastMessageAt: lastMsg?.sent_at ?? null,
     };
   });
+
+  // Sort: active/door_open first (by last_message_at desc), then knocking, then expired+closed
+  // Within each group, sort by matched_at desc
+  items.sort((a, b) => {
+    const ga = doorSortGroup(a.matchStatus, a.doorStatus);
+    const gb = doorSortGroup(b.matchStatus, b.doorStatus);
+    if (ga !== gb) return ga - gb;
+    // Same group: within active/door_open prefer last_message_at
+    if (ga === 0) {
+      const ta = a.lastMessageAt ? new Date(a.lastMessageAt).getTime() : 0;
+      const tb = b.lastMessageAt ? new Date(b.lastMessageAt).getTime() : 0;
+      if (ta !== tb) return tb - ta;
+    }
+    // Fallback: matched_at desc
+    return new Date(b.matchedAt).getTime() - new Date(a.matchedAt).getTime();
+  });
+
+  return items;
+}
+
+// Calls record-door-knock edge function
+export async function recordDoorKnock(
+  matchId: string,
+  tapCount: number,
+): Promise<{ doorStatus: string; knockCount: number; knockTarget: number; dpAwarded: number }> {
+  const { data, error } = await supabase.functions.invoke('record-door-knock', {
+    body: { match_id: matchId, tap_count: tapCount },
+  });
+  if (error) throw error;
+  return {
+    doorStatus: data.door_status,
+    knockCount: data.knock_count,
+    knockTarget: data.knock_target,
+    dpAwarded: data.dp_awarded,
+  };
+}
+
+// Calls answer-door-early edge function
+export async function answerDoorEarly(
+  matchId: string,
+  reason: string,
+): Promise<{ doorOpen: boolean }> {
+  const { data, error } = await supabase.functions.invoke('answer-door-early', {
+    body: { match_id: matchId, reason },
+  });
+  if (error) throw error;
+  return { doorOpen: data.door_open };
 }
 
 export async function fetchMessages(matchId: string, limit = 50): Promise<Message[]> {
