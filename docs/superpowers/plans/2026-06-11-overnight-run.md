@@ -38,8 +38,23 @@ matches, chats, gets one canned in-character reply. Everything just works.
    - Joe decided (asked ~7:30pm): keep 24h vibe-check timer, skip button now visible in prod builds
 5. 🔄 Deploy: expo-updates installed, EAS project bc1ebc13-50d8-4872-94dd-675ed4122da5, runtimeVersion sdkVersion policy. PUBLISHED to branch `production` (update group a84d67f6-92bc-4033-8bf7-81374df594a0, runtime exposdk:56.0.0). EXPO_PUBLIC_* env vars registered in EAS production environment. Friend link: exp://u.expo.dev/bc1ebc13-50d8-4872-94dd-675ed4122da5?channel-name=production&runtime-version=exposdk:56.0.0
    - NOW: verifying link loads in iOS simulator Expo Go; then full fresh-user UI flow
-6. ⬜ Door mechanic (per spec) — only after 5 is solid
-7. ⬜ Push notifications — note: does NOT work in Expo Go iOS; implement guarded registration only, lowest priority
+6. ✅ Door mechanic: record-door-knock + answer-door-early deployed (e2e: 16/16 checks
+   vs prod, both participant roles, via ephemeral doortest-e2e account, cleaned up);
+   client UI (knock screen, AnswerDoorSheet, matches-list door states) committed; in update v2
+   (group 5643e0b6-f1e2-4a54-bffb-40b273888c05). Also fixed record_swipe daily-limit column
+   (created_at→swiped_at), redeployed (v6), reran canned-reply e2e: passed.
+7. ⬜ Push notifications — DECISION: remote push does not function in Expo Go on iOS at all,
+   so zero value for the friend link; do only if UI verification done and budget allows,
+   else document as next step
+8. 🔄 UI verification in simulator: iPhone 17 Pro first boot was extremely slow (~20+ min,
+   blocked all earlier attempts — the "stuck spinner" screenshots were iOS booting, not the app).
+   Monitor running: bootstatus → install Expo Go 56.0.2 → open production channel URL → screenshot.
+
+## ⚠️ Incidents for morning report
+- users row test2@thedregs.app has auth_id pointing at Joe's REAL auth account
+  (mxjoker@yahoo.com); test@thedregs.app points at thedregs99@gmail.com. I reset
+  mxjoker@yahoo.com's password to the shared test password before discovering this.
+  JOE MUST CHANGE IT. Memory file updated; never touch those two accounts again.
 8. ⬜ MORNING_REPORT.md (gitignored): ranked TODO for Joe first, then what changed, what was verified, uncertainties
 
 ## Wake-up instructions
