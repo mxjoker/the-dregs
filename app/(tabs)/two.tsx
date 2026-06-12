@@ -9,9 +9,11 @@ import {
 } from 'react-native';
 import { useState, useEffect, useCallback } from 'react';
 import { router } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors } from '@/constants/Colors';
 import { supabase } from '@/lib/supabase';
 import { useOnboarding } from '@/context/OnboardingContext';
+import { useSession } from '@/hooks/useSession';
 import { fetchMatches, type MatchListItem } from '@/lib/matches';
 import { AnswerDoorSheet } from '@/components/AnswerDoorSheet';
 
@@ -113,7 +115,13 @@ function MatchRow({ item, viewerProfileId, onAnswerDoor }: MatchRowProps) {
 }
 
 export default function MatchesScreen() {
-  const { profileId } = useOnboarding();
+  const insets = useSafeAreaInsets();
+  // OnboardingContext only has profileId during the onboarding session;
+  // after an app restart it is null, so fall back to resolving via the session.
+  const { profileId: onboardingProfileId } = useOnboarding();
+  const sessionState = useSession();
+  const authId = sessionState.status === 'authenticated' ? sessionState.session.user.id : null;
+  const [profileId, setProfileId] = useState<string | null>(onboardingProfileId ?? null);
   const [matches, setMatches] = useState<MatchListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -134,12 +142,25 @@ export default function MatchesScreen() {
   }, [profileId]);
 
   useEffect(() => {
+    if (profileId || !authId) return;
+    (async () => {
+      const { data: userData } = await supabase
+        .from('users').select('id').eq('auth_id', authId).single();
+      if (!userData) return;
+      const { data: prof } = await supabase
+        .from('profiles').select('id').eq('user_id', userData.id).single();
+      if (prof) setProfileId(prof.id);
+    })();
+  }, [authId, profileId]);
+
+  useEffect(() => {
     if (!profileId) {
-      setLoading(false);
+      // still resolving via session; only stop loading once signed out
+      if (!authId && sessionState.status !== 'loading') setLoading(false);
       return;
     }
     loadMatches().finally(() => setLoading(false));
-  }, [loadMatches, profileId]);
+  }, [loadMatches, profileId, authId, sessionState.status]);
 
   const handleRefresh = useCallback(async () => {
     setRefreshing(true);
@@ -193,14 +214,14 @@ export default function MatchesScreen() {
 
   if (loading) {
     return (
-      <View style={[styles.container, styles.centered]}>
+      <View style={[styles.container, styles.centered, { paddingTop: insets.top }]}>
         <ActivityIndicator color={Colors.textMuted} />
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top }]}>
       {matches.length === 0 ? (
         <FlatList
           data={[]}
@@ -236,16 +257,18 @@ export default function MatchesScreen() {
       )}
 
       <View style={styles.devButtons}>
-        <Pressable
-          style={[styles.devButton, skipping && styles.buttonDisabled]}
-          onPress={handleSkipOnboarding}
-          disabled={busy}
-        >
-          {skipping
-            ? <ActivityIndicator size="small" color={Colors.textMuted} />
-            : <Text style={styles.devButtonText}>skip onboarding [dev]</Text>
-          }
-        </Pressable>
+        {__DEV__ && (
+          <Pressable
+            style={[styles.devButton, skipping && styles.buttonDisabled]}
+            onPress={handleSkipOnboarding}
+            disabled={busy}
+          >
+            {skipping
+              ? <ActivityIndicator size="small" color={Colors.textMuted} />
+              : <Text style={styles.devButtonText}>skip onboarding [dev]</Text>
+            }
+          </Pressable>
+        )}
         <Pressable
           style={[styles.signOutButton, signingOut && styles.buttonDisabled]}
           onPress={handleSignOut}
