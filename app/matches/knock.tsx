@@ -152,7 +152,7 @@ export default function KnockScreen() {
   if (loadingState) {
     return (
       <View style={[styles.container, styles.centered]}>
-        <Stack.Screen options={{ title: 'knocking…' }} />
+        <Stack.Screen options={{ title: 'knocking…', headerBackTitle: 'matches' }} />
         <ActivityIndicator color={Colors.textMuted} />
       </View>
     );
@@ -165,6 +165,7 @@ export default function KnockScreen() {
         headerStyle: { backgroundColor: Colors.bg },
         headerTintColor: Colors.textPrimary,
         headerTitleStyle: { color: Colors.textPrimary },
+        headerBackTitle: 'matches',
       }} />
 
       {/* Full-screen tap area */}

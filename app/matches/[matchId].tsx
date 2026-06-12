@@ -128,7 +128,7 @@ export default function ChatScreen() {
   if (loading) {
     return (
       <View style={[styles.container, styles.centered]}>
-        <Stack.Screen options={{ title: otherName || '...' }} />
+        <Stack.Screen options={{ title: otherName || '...', headerBackTitle: 'matches' }} />
         <ActivityIndicator color={Colors.textMuted} />
       </View>
     );
@@ -145,6 +145,7 @@ export default function ChatScreen() {
         headerStyle: { backgroundColor: Colors.bg },
         headerTintColor: Colors.textPrimary,
         headerTitleStyle: { color: Colors.textPrimary },
+        headerBackTitle: 'matches',
       }} />
 
       <FlatList
