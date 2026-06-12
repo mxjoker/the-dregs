@@ -13,7 +13,7 @@ import { useLocalSearchParams, Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import { supabase } from '@/lib/supabase';
-import { useOnboarding } from '@/context/OnboardingContext';
+import { useMyProfileId } from '@/hooks/useMyProfileId';
 import { fetchMessages, markMatchRead, sendMessage, type Message } from '@/lib/matches';
 
 function formatTime(iso: string): string {
@@ -23,7 +23,7 @@ function formatTime(iso: string): string {
 
 export default function ChatScreen() {
   const { matchId } = useLocalSearchParams<{ matchId: string }>();
-  const { profileId } = useOnboarding();
+  const profileId = useMyProfileId();
 
   const [otherName, setOtherName] = useState<string>('');
   const [messages, setMessages] = useState<Message[]>([]);
